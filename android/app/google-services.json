@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1008228895871",
+    "project_id": "expiry-6c8fd",
+    "storage_bucket": "expiry-6c8fd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1008228895871:android:64006fee36f43bcccf834a",
+        "android_client_info": {
+          "package_name": "com.myapp.warrantybell"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCfgOTxx_8Cq02LVcgJc6_qFJhrh8Kj0jQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
