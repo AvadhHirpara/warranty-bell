@@ -43,7 +43,7 @@ class ProductHistoryBloc extends Bloc<ProductHistoryEvent, ProductHistoryState> 
     }
     catch(e){
       emit(state.copyWith(status:LoadStatus.failure));
-      print("get home products exception $e");
+      print("get products history exception $e");
     }
   }
 

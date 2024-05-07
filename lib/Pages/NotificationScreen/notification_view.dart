@@ -1,3 +1,4 @@
+import 'package:WarrantyBell/Constants/api_string.dart';
 import 'package:WarrantyBell/Constants/app_date_formates.dart';
 import 'package:WarrantyBell/Constants/color_constants.dart';
 import 'package:WarrantyBell/Constants/image_constants.dart';
@@ -73,7 +74,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                 padding: EdgeInsets.all(10.0),
                                 child: Icon(Icons.arrow_back,color: AppIconColor.white),
                               )),
-                          Expanded(child: commonTextView("Notification", fontWeight: FontWeight.w500, color: AppTextColor.white, fontSize: 18)),
+                          Expanded(child: commonTextView(NotificationString.notification, fontWeight: FontWeight.w500, color: AppTextColor.white, fontSize: 18)),
                         ],
                       ),
                     ),
@@ -131,7 +132,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                         );
                       }, separatorBuilder: (BuildContext context, int index) {
                           return const Divider();
-                      },) : Center(child: commonTextView("No Notification Available"))
+                      },) : Center(child: commonTextView(NotificationString.noNotification))
                     ],
                   ),
                 ),

@@ -82,7 +82,7 @@ class NotificationScheduleBloc extends Bloc<NotificationScheduleEvent, Notificat
      }
      catch(e){
        emit(state.copyWith(status:LoadStatus.failure));
-       print("notification schedule exception $e");
+       print("update notification schedule exception $e");
      }
    }
 

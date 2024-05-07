@@ -12,7 +12,6 @@ part 'home_event.dart';
 part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
-  Map<String,String> commonHeaderWithTokens = {};
 
   HomeBloc() : super(HomeState()) {
 
@@ -27,7 +26,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   ///DeleteProductButtonTap
   FutureOr<void> deleteProductOnTap(DeleteProductEvent event, Emitter<HomeState>emit){
-          deleteProduct(event.productModel?.id,);
+    deleteProduct(event.productModel?.id,);
   }
 
   ///DeleteProductButtonTap
@@ -73,7 +72,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   try{
     var res = await ApiService.request(ApiUrls.logout, RequestMethods.POST, showLogs: true, header: tokeWithHeader);
     if(res != null){
-      if(res["statuscode"] == 200) {
+      if(res["statuscode"] == 201) {
         emit(state.copyWith(status:LoadStatus.success,flag: "logout"));
         email.clear();
         loginPassword.clear();
@@ -84,7 +83,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
   catch(e){
     emit(state.copyWith(status:LoadStatus.failure));
-    print("signin email exception $e");
+    print("logout exception $e");
   }
 }
 
@@ -124,7 +123,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     List<CategoryModel> categoryList = [];
 
     try{
-      var res = await ApiService.request(ApiUrls.categoryProductCount, RequestMethods.GET, showLogs: true,header: tokeWithHeader);
+      var res = await ApiService.request(ApiUrls.category, RequestMethods.GET, showLogs: true,header: tokeWithHeader);
       if(res != null){
         if(res[UserModelKeys.data] != null && res[UserModelKeys.data] is List) {
           for (var element in (res[UserModelKeys.data])) {
@@ -140,7 +139,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     }
     catch(e){
       emit(state.copyWith(status:LoadStatus.failure));
-      print(" get home category exception $e");
+      print("get home category exception $e");
     }
   }
 

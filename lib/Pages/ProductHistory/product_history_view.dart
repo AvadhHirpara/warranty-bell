@@ -79,7 +79,7 @@ class _ProductHistoryScreenState extends State<ProductHistoryScreen>{
                                     padding: EdgeInsets.only(left: 10),
                                     child: Icon(Icons.arrow_back,color: AppIconColor.white),
                                   )),
-                              Expanded(child: commonTextView("Product History", fontWeight: FontWeight.w500, color: AppTextColor.white, fontSize: 18)),
+                              Expanded(child: commonTextView(ProductHistoryString.productHistory, fontWeight: FontWeight.w500, color: AppTextColor.white, fontSize: 18)),
                             ],
                           ),
                         ),
@@ -186,7 +186,7 @@ class _ProductHistoryScreenState extends State<ProductHistoryScreen>{
                             ),
                           );
                         })
-                        : const Center(child: Text("No History Found")),
+                        : const Center(child: Text(ProductHistoryString.noHistoryFound)),
                   ),
                 ),
               ),

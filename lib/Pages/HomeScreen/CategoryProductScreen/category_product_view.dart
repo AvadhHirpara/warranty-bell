@@ -69,7 +69,7 @@ class _CategoryProductScreenState extends State<CategoryProductScreen> {
                                   Navigator.pop(context);
                                 },
                                 child: const Icon(Icons.arrow_back, color: AppIconColor.white)),
-                            Expanded(child: commonTextView("Products", fontWeight: FontWeight.w500, color: AppTextColor.white, fontSize: 18)),
+                            Expanded(child: commonTextView(CommonString.products, fontWeight: FontWeight.w500, color: AppTextColor.white, fontSize: 18)),
                           ],
                         ),
                       ),

@@ -63,6 +63,8 @@ dependencies:
   image_cropper: ^6.0.0
   syncfusion_flutter_pdf: ^25.1.42
   external_path: ^1.0.3
+  flutter_html: ^3.0.0-alpha.5
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

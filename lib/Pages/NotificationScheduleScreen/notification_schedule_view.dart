@@ -1,3 +1,4 @@
+import 'package:WarrantyBell/Constants/api_string.dart';
 import 'package:WarrantyBell/Constants/color_constants.dart';
 import 'package:WarrantyBell/Constants/image_constants.dart';
 import 'package:WarrantyBell/Element/padding_class.dart';
@@ -37,6 +38,8 @@ class _NotificationScheduleScreenState extends State<NotificationScheduleScreen>
             showProgressThreeDots(context, loaderColor: AppBackGroundColor.blue);
           } else if (state.status == LoadStatus.success) {
             hideProgress(context);
+          }else if (state.status == LoadStatus.failure){
+            hideProgress(context);
           }
         },
         builder: (context, state) {
@@ -62,7 +65,7 @@ class _NotificationScheduleScreenState extends State<NotificationScheduleScreen>
                               Navigator.pop(context);
                             },
                             child: const Icon(Icons.arrow_back, color: AppIconColor.white)),
-                        Expanded(child: commonTextView("Notification Schedule", fontWeight: FontWeight.w500, color: AppTextColor.white, fontSize: 18)),
+                        Expanded(child: commonTextView(CommonString.notificationSchedule, fontWeight: FontWeight.w500, color: AppTextColor.white, fontSize: 18)),
                       ],
                     ),
                   ),
@@ -81,7 +84,7 @@ class _NotificationScheduleScreenState extends State<NotificationScheduleScreen>
                         itemBuilder: (context, index) {
                           return Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: commonSettingItemView("${state.notificationScheduleList?[index].timePeriod.toString()} Days" ?? '',
+                            child: commonSettingItemView("${state.notificationScheduleList?[index].timePeriod.toString()} ${CommonString.days}" ?? '',
                                 child: SvgPicture.asset((state.notificationScheduleList?[index].status == false) ? AppImages.unSelectRadio : AppImages.selectedRadio), onTap: () {
                               context.read<NotificationScheduleBloc>().add(ChangeNotificationStatusEvent(notificationScheduleModel: state.notificationScheduleList?[index], isStatus: !state.notificationScheduleList![index].status!));
                             }),

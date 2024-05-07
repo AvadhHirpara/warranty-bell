@@ -26,6 +26,10 @@ import 'package:WarrantyBell/Pages/NotificationScreen/notification_bloc.dart';
 import 'package:WarrantyBell/Pages/NotificationScreen/notification_view.dart';
 import 'package:WarrantyBell/Pages/ProductHistory/product_history_bloc.dart';
 import 'package:WarrantyBell/Pages/ProductHistory/product_history_view.dart';
+import 'package:WarrantyBell/Pages/SettingScreen/PrivacyPolicyScreen/privacy_policy_bloc.dart';
+import 'package:WarrantyBell/Pages/SettingScreen/PrivacyPolicyScreen/privacy_policy_view.dart';
+import 'package:WarrantyBell/Pages/SettingScreen/TermsAndConditionScreen/terms_condition_bloc.dart';
+import 'package:WarrantyBell/Pages/SettingScreen/TermsAndConditionScreen/terms_condition_view.dart';
 import 'package:WarrantyBell/Pages/SettingScreen/setting_bloc.dart';
 import 'package:WarrantyBell/Pages/SettingScreen/setting_view.dart';
 import 'package:WarrantyBell/Pages/SplaseScreen/splace_screen_view.dart';
@@ -49,6 +53,8 @@ const splashScreen = "/splash";
 const changePassword = "/changePassword";
 const categoryProduct = "/categoryProduct";
 const productHistory = "/productHistory";
+const privacyScreen = "/privacy";
+const termsScreen = "/terms";
 
 class Routes {
   static Route? onGenerateRoute(RouteSettings settings) {
@@ -156,6 +162,20 @@ class Routes {
             builder: (context) => BlocProvider(
               create: (create) => ProductHistoryBloc(),
               child: const ProductHistoryScreen(),
+            ));
+      case privacyScreen:
+        return MaterialPageRoute(
+            settings: settings,
+            builder: (context) => BlocProvider(
+              create: (create) => PrivacyPolicyBloc(),
+              child: const PrivacyPolicyScreen(),
+            ));
+      case termsScreen:
+        return MaterialPageRoute(
+            settings: settings,
+            builder: (context) => BlocProvider(
+              create: (create) => TermsConditionBloc(),
+              child: const TermsAndConditionScreen(),
             ));
     }
   }

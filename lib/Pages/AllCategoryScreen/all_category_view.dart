@@ -1,10 +1,10 @@
+import 'package:WarrantyBell/Constants/api_string.dart';
 import 'package:WarrantyBell/Constants/color_constants.dart';
 import 'package:WarrantyBell/Enums/loading_status.dart';
 import 'package:WarrantyBell/Model/category_model.dart';
 import 'package:WarrantyBell/Model/sub_category_model.dart';
 import 'package:WarrantyBell/Pages/AddProductScreen/Module/category_view.dart';
 import 'package:WarrantyBell/Pages/AllCategoryScreen/all_category_bloc.dart';
-import 'package:WarrantyBell/main.dart';
 import 'package:WarrantyBell/utils/Mixins/app_exit_dialog.dart';
 import 'package:WarrantyBell/widgets/common_text_view.dart';
 import 'package:flutter/material.dart';
@@ -70,7 +70,7 @@ class _AllCategoryScreenState extends State<AllCategoryScreen> {
                                   padding: EdgeInsets.all(10.0),
                                   child: Icon(Icons.arrow_back, color: AppIconColor.white),
                                 )),
-                            Expanded(child: commonTextView("Category", fontWeight: FontWeight.w500, color: AppTextColor.white, fontSize: 18)),
+                            Expanded(child: commonTextView(CategoryString.category, fontWeight: FontWeight.w500, color: AppTextColor.white, fontSize: 18)),
                           ],
                         ),
                       ),
@@ -116,7 +116,7 @@ class _AllCategoryScreenState extends State<AllCategoryScreen> {
                   onTap: (){
                     Navigator.pop(context);
                       Navigator.pop(context, subcategory![index]);
-                      contexts.read<AllCategoryBloc>().add(SelectedSubCategoryEvent(subCategoryModel: subcategory[index]));
+                      context.read<AllCategoryBloc>().add(SelectedSubCategoryEvent(subCategoryModel: subcategory[index]));
                   },
                   child: Align(
                       alignment: Alignment.centerLeft,
@@ -124,7 +124,7 @@ class _AllCategoryScreenState extends State<AllCategoryScreen> {
                 );
               }, separatorBuilder: (BuildContext context, int index) {
               return const Divider();
-            },) : const Text("No SubCategory Available"),
+            },) : const Text(CategoryString.noSubCategory),
           ),
         );
       },

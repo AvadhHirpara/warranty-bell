@@ -42,7 +42,8 @@ class User {
     displayName = json[UserModelKeys.displayName] ?? '';
     firstName = json[UserModelKeys.firstName] ?? '';
     lastName = json[UserModelKeys.lastName] ?? '';
-    deviceToken = json[UserModelKeys.deviceToken] ?? '';
+    // deviceToken = json['device_token'].cast<String>();
+    // deviceToken = json[UserModelKeys.deviceToken] ?? '';
     mobile = json[UserModelKeys.mobile] ?? 0;
     profile = json[UserModelKeys.profile] ?? '';
     loginType = json[UserModelKeys.loginType] ?? '';
@@ -59,7 +60,7 @@ class User {
     displayName = json[UserModelKeys.displayName] ?? '';
     firstName = json[UserModelKeys.firstName] ?? '';
     lastName = json[UserModelKeys.lastName] ?? '';
-    deviceToken = json[UserModelKeys.deviceToken] ?? '';
+    // deviceToken = json[UserModelKeys.deviceToken] ?? '';
     mobile = json[UserModelKeys.mobile] ?? 0;
     profile = json[UserModelKeys.profile] ?? '';
     loginType = json[UserModelKeys.loginType] ?? '';
@@ -77,7 +78,7 @@ class User {
     json[UserModelKeys.displayName] = displayName ?? '';
     json[UserModelKeys.firstName] = firstName ?? '';
     json[UserModelKeys.lastName] = lastName ?? '';
-    json[UserModelKeys.deviceToken] = deviceToken ?? '';
+    // json[UserModelKeys.deviceToken] = deviceToken ?? '';
     json[UserModelKeys.mobile] = mobile ?? 0;
     json[UserModelKeys.loginType] = loginType ?? '';
     json[UserModelKeys.authToken] = authToken ?? '';
@@ -96,7 +97,7 @@ class User {
     json[UserModelKeys.displayName] = displayName ?? '';
     json[UserModelKeys.firstName] = firstName ?? '';
     json[UserModelKeys.lastName] = lastName ?? '';
-    json[UserModelKeys.deviceToken] = deviceToken ?? '';
+    // json[UserModelKeys.deviceToken] = deviceToken ?? '';
     json[UserModelKeys.mobile] = mobile ?? 0;
     json[UserModelKeys.loginType] = loginType ?? '';
     json[UserModelKeys.authToken] = authToken ?? '';

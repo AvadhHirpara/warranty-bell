@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:WarrantyBell/Constants/api_string.dart';
 import 'package:WarrantyBell/Constants/color_constants.dart';
 import 'package:WarrantyBell/Constants/image_constants.dart';
 import 'package:WarrantyBell/Element/padding_class.dart';
@@ -59,7 +60,7 @@ class _SettingScreenState extends State<SettingScreen> {
                               Navigator.pop(context);
                             },
                             child: const Icon(Icons.arrow_back,color: AppIconColor.white)),
-                        Expanded(child: commonTextView("Settings", fontWeight: FontWeight.w500, color: AppTextColor.white, fontSize: 18)),
+                        Expanded(child: commonTextView(SettingString.setting, fontWeight: FontWeight.w500, color: AppTextColor.white, fontSize: 18)),
                       ],
                     ),
                   ),
@@ -69,12 +70,12 @@ class _SettingScreenState extends State<SettingScreen> {
               child: Column(
                 children: [
                   paddingTop(30),
-                  commonSettingItemView("Notification",child: SvgPicture.asset(state.isNotificationStatus == false ? AppImages.switchOff : AppImages.switchOn),onTap: (){context.read<SettingBloc>().add(ChangeNotificationStatusEvent(isNotificationStatus: !state.isNotificationStatus!) );}),
-                  commonSettingItemView("Privacy & Policy",child: const Icon(Icons.arrow_forward_ios_outlined)),
-                  commonSettingItemView("Terms & Conditions",child: const Icon(Icons.arrow_forward_ios_outlined)),
-                  commonSettingItemView("Support",child: const Icon(Icons.arrow_forward_ios_outlined)),
-                  commonSettingItemView("Change Password",child: const Icon(Icons.arrow_forward_ios_outlined),onTap: (){Navigator.pushNamed(context,changePassword);}),
-                  commonSettingItemView("Delete Account", onTap: (){ showAlertDialog(context, "Delete Account", "Are you sure you wan't to delete account ?", "yes",onTapOk: (){ Navigator.pop(context); context.read<SettingBloc>().add(DeleteAccountEvent());},isShowCancel: true,cancelButtonText: "No");}),
+                  commonSettingItemView(SettingString.notification,child: SvgPicture.asset(state.isNotificationStatus == false ? AppImages.switchOff : AppImages.switchOn),onTap: (){context.read<SettingBloc>().add(ChangeNotificationStatusEvent(isNotificationStatus: !state.isNotificationStatus!) );}),
+                  commonSettingItemView(SettingString.privacyPolicy,child: const Icon(Icons.arrow_forward_ios_outlined),onTap: (){Navigator.pushNamed(context,privacyScreen);}),
+                  commonSettingItemView(SettingString.terms,child: const Icon(Icons.arrow_forward_ios_outlined),onTap: (){Navigator.pushNamed(context,termsScreen);}),
+                  // commonSettingItemView(SettingString.support,child: const Icon(Icons.arrow_forward_ios_outlined)),
+                  commonSettingItemView(SettingString.changePassword,child: const Icon(Icons.arrow_forward_ios_outlined),onTap: (){Navigator.pushNamed(context,changePassword);}),
+                  commonSettingItemView(SettingString.deleteAccount, onTap: (){ showAlertDialog(context, SettingString.deleteAccount, SettingString.areYouSureDelete, CommonString.yes,onTapOk: (){ Navigator.pop(context); context.read<SettingBloc>().add(DeleteAccountEvent());},isShowCancel: true,cancelButtonText: CommonString.no);}),
                 ],
               ),
             ),

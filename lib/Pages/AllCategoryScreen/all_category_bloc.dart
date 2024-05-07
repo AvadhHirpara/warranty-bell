@@ -21,15 +21,14 @@ class AllCategoryBloc extends Bloc<AllCategoryEvent, AllCategoryState> {
 
   FutureOr<void> _onSelectedCategory(SelectedCategoryEvent event, Emitter<AllCategoryState> emit) {
     getSubCategory(event.categoryModel!.sId!);
-    emit(state.copyWith(subCategoryList: subCategoryList));
+    emit(state.copyWith(status: LoadStatus.initial, subCategoryList: subCategoryList));
   }
 
   FutureOr<void> _onSelectedSubCategory(SelectedSubCategoryEvent event, Emitter<AllCategoryState> emit) {
-    emit(state.copyWith(subCategoryModel: event.subCategoryModel));
-    print("sub category model is ${event.subCategoryModel}");
+    emit(state.copyWith(status: LoadStatus.initial,subCategoryModel: event.subCategoryModel));
   }
 
-
+  /// getSubCategory
   Future getSubCategory(String categoryId) async {
     String token = await sharedPref.read('token');
     Map<String,String> tokeWithHeader = {
@@ -46,7 +45,6 @@ class AllCategoryBloc extends Bloc<AllCategoryEvent, AllCategoryState> {
           for (var element in (res[UserModelKeys.data])) {
             SubCategoryModel subCategoryModel = SubCategoryModel.fromJson(element ?? {});
             subCategoryList.add(subCategoryModel);
-            print("category length is ${subCategoryList.length}");
           }
           emit(state.copyWith(status:LoadStatus.success));
         }else{
@@ -56,7 +54,7 @@ class AllCategoryBloc extends Bloc<AllCategoryEvent, AllCategoryState> {
     }
     catch(e){
       emit(state.copyWith(status:LoadStatus.failure));
-      print("category exception $e");
+      print("sub category exception $e");
     }
   }
 

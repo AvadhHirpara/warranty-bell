@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:WarrantyBell/Controller/text_editing_controller.dart';
 import 'package:bloc/bloc.dart';
 import 'package:WarrantyBell/Constants/api_string.dart';
 import 'package:WarrantyBell/Constants/api_urls.dart';
@@ -14,7 +15,6 @@ class SettingBloc extends Bloc<SettingEvent, SettingState> {
 
     on<SettingInitialEvent>((event, emit){
       emit(state.copyWith(isNotificationStatus: userData.notificationStatus));
-      print("event status is ${event.isNotificationStatus}");
     });
 
     on<ChangeNotificationStatusEvent>((event, emit) => changeNotificationStatus(event, emit));
@@ -47,6 +47,8 @@ class SettingBloc extends Bloc<SettingEvent, SettingState> {
     var res = await ApiService.request(ApiUrls.deleteAccount, RequestMethods.POST, showLogs: true,   header: tokeWithHeader);
     if(res != null){
       if(res["statuscode"] == 200) {
+        email.clear();
+        loginPassword.clear();
         emit(state.copyWith(status:LoadStatus.success,flag: "delete"));
       }else{
         emit(state.copyWith(status:LoadStatus.failure));
@@ -55,7 +57,7 @@ class SettingBloc extends Bloc<SettingEvent, SettingState> {
   }
   catch(e){
     emit(state.copyWith(status:LoadStatus.failure));
-    print("signin email exception $e");
+    print("delete account exception $e");
   }
 }
 

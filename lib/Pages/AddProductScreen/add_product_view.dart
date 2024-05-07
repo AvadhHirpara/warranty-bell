@@ -65,7 +65,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
             Navigator.pushNamed(context, homeScreen);
           }
           if (state.status == LoadStatus.success && state.flag == "subCategory") {
-            hideProgress(context);
+            // hideProgress(context);
             showSubCategory(context, state.subCategoryList);
           }
           if (state.status == LoadStatus.success && state.flag == "delete") {
@@ -102,7 +102,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                               padding: EdgeInsets.all(08),
                               child: Icon(Icons.arrow_back, color: AppIconColor.white),
                             )),
-                        commonTextView("Product Details", fontWeight: FontWeight.w500, color: AppTextColor.white, fontSize: 18),
+                        commonTextView(AddProductString.productDetails, fontWeight: FontWeight.w500, color: AppTextColor.white, fontSize: 18),
                         state.isEdit == true
                             ? Row(
                                 children: [
@@ -117,10 +117,10 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      showAlertDialog(context, "Delete Product", "Are you sure you wan't to delete this product ?", "yes", onTapOk: () {
+                                      showAlertDialog(context,AddProductString.deleteProduct, AddProductString.areYouSure, CommonString.yes, onTapOk: () {
                                         Navigator.pop(context);
                                         context.read<AddProductBloc>().add(DeleteProductEvent(productModel: state.productModel));
-                                      }, isShowCancel: true, cancelButtonText: "No");
+                                      }, isShowCancel: true, cancelButtonText: CommonString.no);
                                     },
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
@@ -145,9 +145,9 @@ class _AddProductScreenState extends State<AddProductScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       paddingTop(20),
-                      customTextField(MediaQuery.of(context).size.width, "Product Name", TextAlign.left, productName, (value) => validateProductName(value), focusNode[0], (value) => '', (value) {
+                      customTextField(MediaQuery.of(context).size.width, AddProductString.productName, TextAlign.left, productName, (value) => validateProductName(value), focusNode[0], (value) => '', (value) {
                         FocusScope.of(context).requestFocus();
-                      }, false, TextInputAction.next, TextInputType.name, TextCapitalization.none, "Enter Product Name", context, '',
+                      }, false, TextInputAction.next, TextInputType.name, TextCapitalization.none, AddProductString.enterProductName, context, '',
                           isShowTitle: true, titleStyle: TextStyleTheme.customTextStyle(AppTextColor.lightBlack, 18, FontWeight.w500), readOnly: state.isEdit == true ? !(state.isView!) : false),
                       paddingTop(15),
                       customTextField(
@@ -283,7 +283,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                       showImagePicker(context);
                                     }
                                   },
-                                  child: commonTextView( (state.isEdit == true && state.isView == true) || state.isEdit == false  ? "Update" : '', fontWeight: FontWeight.w500, color: AppTextColor.red, fontSize: 16))
+                                  child: commonTextView( (state.isEdit == true && state.isView == true) || state.isEdit == false  ? AddProductString.update : '', fontWeight: FontWeight.w500, color: AppTextColor.red, fontSize: 16))
                               : (state.isEdit == false && (state.productImage?.path.isNotEmpty ?? false))
                                   ? InkWell(
                                       onTap: () {
@@ -314,7 +314,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                           child: Container(
                                               alignment: Alignment.center,
                                               color: Colors.grey.withOpacity(0.1),
-                                              child: commonTextView("Tap to View Photo", fontWeight: FontWeight.w500, color: AppTextColor.white, fontSize: 16)),
+                                              child: commonTextView(AddProductString.viewPhoto, fontWeight: FontWeight.w500, color: AppTextColor.white, fontSize: 16)),
                                         )),
                                   ),
                                 )
@@ -365,7 +365,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                           child: Container(
                                               alignment: Alignment.center,
                                               color: Colors.grey.withOpacity(0.1),
-                                              child: commonTextView("Tap to View Photo", fontWeight: FontWeight.w500, color: AppTextColor.white, fontSize: 16)),
+                                              child: commonTextView(AddProductString.viewPhoto, fontWeight: FontWeight.w500, color: AppTextColor.white, fontSize: 16)),
                                         )),
                                   ),
                                 )
@@ -387,7 +387,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                 child: Container(
                                     alignment: Alignment.center,
                                     color: Colors.grey.withOpacity(0.1),
-                                    child: commonTextView("Tap to View Photo", fontWeight: FontWeight.w500, color: AppTextColor.white, fontSize: 16)),
+                                    child: commonTextView(AddProductString.viewPhoto, fontWeight: FontWeight.w500, color: AppTextColor.white, fontSize: 16)),
                               )),
                         ),
                       ) :    (state.productImage != null && state.isEdit == false)
@@ -409,7 +409,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                               child: Container(
                                                   alignment: Alignment.center,
                                                   color: Colors.grey.withOpacity(0.1),
-                                                  child: commonTextView("Tap to View Photo", fontWeight: FontWeight.w500, color: AppTextColor.white, fontSize: 16)),
+                                                  child: commonTextView(AddProductString.viewPhoto, fontWeight: FontWeight.w500, color: AppTextColor.white, fontSize: 16)),
                                             )),
                                       ),
                                     )
@@ -432,7 +432,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                                   child: Container(
                                                       alignment: Alignment.center,
                                                       color: Colors.grey.withOpacity(0.1),
-                                                      child: commonTextView("Tap to View Photo", fontWeight: FontWeight.w500, color: AppTextColor.white, fontSize: 16)),
+                                                      child: commonTextView(AddProductString.viewPhoto, fontWeight: FontWeight.w500, color: AppTextColor.white, fontSize: 16)),
                                                 )),
                                           ),
                                         )
@@ -463,7 +463,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                         )
                           : Container(),
                       paddingTop(15),
-                      customTextField(MediaQuery.of(context).size.width, "Barcode Number", TextAlign.left, productBarcodeNumber, (value) => validateEmptyField(value), focusNode[3], (value) => '',
+                      customTextField(MediaQuery.of(context).size.width, AddProductString.barcodeNumber, TextAlign.left, productBarcodeNumber, (value) => validateEmptyField(value), focusNode[3], (value) => '',
                           (value) {
                         FocusScope.of(context).requestFocus();
                       }, false, TextInputAction.next, TextInputType.name, TextCapitalization.none, "15862345786", context, '',
@@ -521,18 +521,17 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                     child: commonButton(AddProductString.save, () {
                                   if (formKey.currentState!.validate()) {
                                     if (productPurchaseDate.text.isEmpty) {
-                                      awesomeTopSnackbar(context, "Please Select Purchase Date");
+                                      awesomeTopSnackbar(context, AddProductString.pleaseSelectPurchaseDate);
                                     } else if (productExpiryDate.text.isEmpty) {
-                                      awesomeTopSnackbar(context, "Please Select Warranty Expiry Date");
+                                      awesomeTopSnackbar(context, AddProductString.pleaseSelectExpiryDate);
                                     } else if ((state.isEdit == false && state.productImage == null)) {
-                                      awesomeTopSnackbar(context, "Please Select Image");
+                                      awesomeTopSnackbar(context, AddProductString.pleaseSelectImage);
                                     } else if (state.subCategoryModel?.categoryId == null) {
-                                      awesomeTopSnackbar(context, "Please Select Category");
+                                      awesomeTopSnackbar(context, AddProductString.pleaseSelectCategory);
                                     } else if (state.subCategoryModel?.sId == null) {
-                                      awesomeTopSnackbar(context, "Please Select SubCategory");
+                                      awesomeTopSnackbar(context, AddProductString.pleaseSelectSubCategory);
                                     } else {
                                       context.read<AddProductBloc>().add(AddProductsEvent(subCategoryModel: state.subCategoryModel));
-                                      print("sub category model is ${state.subCategoryModel?.toJson()}");
                                     }
                                   }
                                 }, 55)),
@@ -552,18 +551,17 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                         child: commonButton(AddProductString.save, () {
                                       if (formKey.currentState!.validate()) {
                                         if (productPurchaseDate.text.isEmpty) {
-                                          awesomeTopSnackbar(context, "Please Select Purchase Date");
+                                          awesomeTopSnackbar(context, AddProductString.pleaseSelectPurchaseDate);
                                         } else if (productExpiryDate.text.isEmpty) {
-                                          awesomeTopSnackbar(context, "Please Select Warranty Expiry Date");
+                                          awesomeTopSnackbar(context, AddProductString.pleaseSelectExpiryDate);
                                         } else if ((state.isEdit == false && state.productImage == null)) {
-                                          awesomeTopSnackbar(context, "Please Select Image");
+                                          awesomeTopSnackbar(context, AddProductString.pleaseSelectImage);
                                         } else if (state.subCategoryModel?.categoryId == null) {
-                                          awesomeTopSnackbar(context, "Please Select Category");
+                                          awesomeTopSnackbar(context, AddProductString.pleaseSelectCategory);
                                         } else if (state.subCategoryModel?.sId == null) {
-                                          awesomeTopSnackbar(context, "Please Select SubCategory");
+                                          awesomeTopSnackbar(context, AddProductString.pleaseSelectSubCategory);
                                         } else {
                                           context.read<AddProductBloc>().add(AddProductsEvent(subCategoryModel: state.subCategoryModel));
-                                          print("sub category model is ${state.subCategoryModel?.toJson()}");
                                         }
                                       }
                                     }, 55)),
@@ -643,7 +641,6 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                       ],
                                     );
                                     if (croppedFile != null) {
-                                      print("cropped image camera path is ${croppedFile.path}");
                                       context.read<AddProductBloc>().add(SelectedImageEvent(XFile(croppedFile.path)));
                                     }
                                   });
@@ -660,7 +657,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                               child: Padding(padding: const EdgeInsets.all(15), child: SvgPicture.asset(AppImages.bottomCamera)),
                             ),
                           ),
-                          const Text("Take a picture")
+                          const Text(CommonString.takePicture)
                         ],
                       ),
                       Column(
@@ -682,12 +679,11 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                             initAspectRatio: CropAspectRatioPreset.original,
                                             lockAspectRatio: false),
                                         IOSUiSettings(
-                                          title: 'Crop Image',
+                                          title: CommonString.cropImage,
                                         ),
                                       ],
                                     );
                                     if (croppedFile != null) {
-                                      print("cropped image gallery path is ${croppedFile.path}");
                                       context.read<AddProductBloc>().add(SelectedImageEvent(XFile(croppedFile.path)));
                                     }
                                   });
@@ -704,7 +700,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                               child: Padding(padding: const EdgeInsets.all(15), child: SvgPicture.asset(AppImages.gallery)),
                             ),
                           ),
-                          const Text("Choose a picture")
+                          const Text(CommonString.choosePicture)
                         ],
                       ),
                     ],
@@ -747,7 +743,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                       return const Divider();
                     },
                   )
-                : const Text("No SubCategory Available"),
+                : const Text(CategoryString.noSubCategory),
           ),
         );
       },

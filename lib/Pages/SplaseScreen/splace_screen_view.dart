@@ -1,3 +1,4 @@
+import 'package:WarrantyBell/Constants/api_string.dart';
 import 'package:WarrantyBell/Constants/color_constants.dart';
 import 'package:WarrantyBell/Constants/image_constants.dart';
 import 'package:WarrantyBell/Element/padding_class.dart';
@@ -21,6 +22,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     loadUserDataSharedPrefs();
     Future.delayed(const Duration(milliseconds: 2200), () {
+      print("get user id in splace init state ${userData.userId}");
       userData.userId == '' ?  Navigator.pushNamed(context, login)  : Navigator.pushNamed(context,homeScreen) ;
     });
   }
@@ -44,7 +46,7 @@ class _SplashScreenState extends State<SplashScreen> {
               child: Image.asset(AppImages.appIcon),
             ),
             paddingTop(15),
-            Text("Warranty Bell",style: TextStyleTheme.customTextStyle(AppTextColor.white, 30, FontWeight.bold),)
+            Text(AppName.warrantyBell,style: TextStyleTheme.customTextStyle(AppTextColor.white, 30, FontWeight.bold),)
           ],
         ),
       )

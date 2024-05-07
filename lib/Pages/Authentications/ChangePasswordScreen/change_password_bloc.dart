@@ -18,11 +18,11 @@ class ChangePasswordBloc extends Bloc<ChangePasswordEvent, ChangePasswordState> 
   }
 
   FutureOr<void> showHidePass(ChangePasswordHideShowEvent event, Emitter<ChangePasswordState> emit) {
-    emit(state.copyWith(isObscureText: event.isObscureText));
+    emit(state.copyWith(status: LoadStatus.initial,isObscureText: event.isObscureText));
   }
 
   FutureOr<void> showHideConfirmPass(ChangeConfirmPasswordHideShowEvent event, Emitter<ChangePasswordState> emit) {
-    emit(state.copyWith(isObscureConfirmPassword: event.isObscureConfirmPassword));
+    emit(state.copyWith(status: LoadStatus.initial,isObscureConfirmPassword: event.isObscureConfirmPassword));
   }
 
   FutureOr<void> changePasswordButtonTap (ChangePasswordButtonEvent event, Emitter<ChangePasswordState>emit){
@@ -32,10 +32,10 @@ class ChangePasswordBloc extends Bloc<ChangePasswordEvent, ChangePasswordState> 
       "confirm_password" : confirmPassword.text
     };
 
-    resetPassword(body);
+    changePassword(body);
   }
 
-  Future resetPassword(Map<String,dynamic> body) async {
+  Future changePassword(Map<String,dynamic> body) async {
     String token = await sharedPref.read('token');
     Map<String,String> tokeWithHeader = {
       ApiServicesHeaderKEYs.accept: "application/json",
@@ -55,7 +55,7 @@ class ChangePasswordBloc extends Bloc<ChangePasswordEvent, ChangePasswordState> 
     }
     catch(e){
       emit(state.copyWith(status:LoadStatus.failure));
-      print("signin email exception $e");
+      print(" exception $e");
     }
   }
 

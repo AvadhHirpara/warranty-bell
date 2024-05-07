@@ -69,7 +69,6 @@ class AddProductBloc extends Bloc<AddProductEvent, AddProductState> {
   }
 
   FutureOr<void> _onSelectedImageEvent(SelectedImageEvent event, Emitter<AddProductState> emit) {
-    print("selected crop image is ${event.productImage}");
     emit(state.copyWith(status : LoadStatus.initial,productImage: event.productImage));
   }
 
@@ -129,7 +128,7 @@ class AddProductBloc extends Bloc<AddProductEvent, AddProductState> {
     deleteProduct(event.productModel?.id,);
   }
 
-  ///GetCategory
+  ///AddProduct
   Future addProducts(Map<String, dynamic> body) async {
     String token = await sharedPref.read('token');
     Map<String,String> tokeWithHeader = {
@@ -175,7 +174,6 @@ class AddProductBloc extends Bloc<AddProductEvent, AddProductState> {
           for (var element in (res[UserModelKeys.data])) {
             CategoryModel categoryModel = CategoryModel.fromJson(element ?? {});
             categoryList.add(categoryModel);
-            print("category length is ${categoryList.length}");
           }
           emit(state.copyWith(status:LoadStatus.success));
         }else{
@@ -198,7 +196,7 @@ class AddProductBloc extends Bloc<AddProductEvent, AddProductState> {
       ApiServicesHeaderKEYs.authorization : "Bearer $token"
     };
     subCategoryList.clear();
-    emit(state.copyWith(status:LoadStatus.loading));
+    // emit(state.copyWith(status:LoadStatus.loading));
     try{
       var res = await ApiService.request("${ApiUrls.subCategory}?${ApiUrls.categoryId}=$categoryId", RequestMethods.GET, showLogs: true,header: tokeWithHeader);
       if(res != null){
@@ -206,10 +204,9 @@ class AddProductBloc extends Bloc<AddProductEvent, AddProductState> {
           for (var element in (res[UserModelKeys.data])) {
             SubCategoryModel subCategoryModel = SubCategoryModel.fromJson(element ?? {});
             subCategoryList.add(subCategoryModel);
-            print("category length is ${subCategoryList.length}");
           }
 
-          emit(state.copyWith(status:LoadStatus.success,flag: "subCategory",subCategoryList: subCategoryList));
+          emit(state.copyWith(status:LoadStatus.success/*,flag: "subCategory"*/,subCategoryList: subCategoryList));
         }else{
           emit(state.copyWith(status:LoadStatus.failure));
         }
@@ -217,7 +214,7 @@ class AddProductBloc extends Bloc<AddProductEvent, AddProductState> {
     }
     catch(e){
       emit(state.copyWith(status:LoadStatus.failure));
-      print("category exception $e");
+      print("sub category exception $e");
     }
   }
 

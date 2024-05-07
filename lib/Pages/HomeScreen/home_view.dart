@@ -40,9 +40,9 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
 
   @override
   void initState() {
-    super.initState();
     context.read<HomeBloc>().add(HomeInitialEvent());
     tabController = TabController(length: 2, vsync: this);
+    super.initState();
   }
 
   TabController? tabController;
@@ -117,8 +117,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                 labelColor: Colors.white,
                                 unselectedLabelColor: Colors.black,
                                 tabs: const [
-                                  Tab(text: 'My Product',),
-                                  Tab(text: 'Categories',),
+                                  Tab(text: HomeString.myProduct,),
+                                  Tab(text: HomeString.categories),
                                 ],
                               ),
                             ),
@@ -186,13 +186,13 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                                 commonRichText(HomeString.currentDate, outputFormat.format(state.productsList![index].purchaseDate!),maxLine: 2),
                                                                 paddingTop(02),
                                                                 commonRichText(HomeString.warrantyDate, outputFormat.format(state.productsList![index].warrantyExpiryDate!),maxLine: 2),
-                                                                GestureDetector(
-                                                                    onTap: (){
-                                                                      createPDF(state.productsList![index]).then((value){
-                                                                        print("download path is $value");
-                                                                      });
-                                                                    },
-                                                                    child: commonRichText("Download pdf", state.productsList?[index].barcodeNumber.toString())),
+                                                                // GestureDetector(
+                                                                //     onTap: (){
+                                                                //       createPDF(state.productsList![index]).then((value){
+                                                                //         print("download path is $value");
+                                                                //       });
+                                                                //     },
+                                                                //     child: commonRichText("Download pdf", state.productsList?[index].barcodeNumber.toString())),
                                                               ],
                                                             ),
                                                           ),
@@ -335,9 +335,9 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                           ),
                                         ),
                                         paddingTop(05),
-                                        commonTextView("Add Product Details", fontWeight: FontWeight.w500, color: AppTextColor.offBlue, fontSize: 18),
+                                        commonTextView(HomeString.addProductDetails, fontWeight: FontWeight.w500, color: AppTextColor.offBlue, fontSize: 18),
                                         paddingTop(05),
-                                        commonTextView("No any product Details added", fontWeight: FontWeight.w400, color: AppTextColor.lightGrey, fontSize: 12),
+                                        commonTextView(HomeString.notAddedAnyProduct, fontWeight: FontWeight.w400, color: AppTextColor.lightGrey, fontSize: 12),
                                       ],
                                     ),
                                   )),
@@ -549,7 +549,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                         Navigator.pop(context);
                                         Navigator.pushNamed(context, editProfileScreen);
                                       },
-                                      child: commonTextView("View Profile", fontSize: 14, fontWeight: FontWeight.w600, color: AppTextColor.white)),
+                                      child: commonTextView(CommonString.viewProfile, fontSize: 14, fontWeight: FontWeight.w600, color: AppTextColor.white)),
                                 ],
                               )
                             ],
@@ -557,8 +557,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                         ),
                       ),
                       ListTile(
-                        title: Text(
-                          'Notification Schedule',
+                        title: Text(CommonString.notificationSchedule,
                           style: TextStyleTheme.customTextStyle(AppTextColor.lightBlack, 16, FontWeight.w500),
                         ),
                         leading: SvgPicture.asset(AppImages.notificationSchedule),
@@ -568,8 +567,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                         },
                       ),
                       ListTile(
-                        title: Text(
-                          'Product History',
+                        title: Text(CommonString.productHistory,
                           style: TextStyleTheme.customTextStyle(AppTextColor.lightBlack, 16, FontWeight.w500),
                         ),
                         leading: SvgPicture.asset(AppImages.productHistory),
@@ -580,7 +578,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                       ),
                       ListTile(
                         title: Text(
-                          'Settings',
+                          CommonString.setting,
                           style: TextStyleTheme.customTextStyle(AppTextColor.lightBlack, 16, FontWeight.w500),
                         ),
                         leading: SvgPicture.asset(AppImages.setting),
@@ -592,16 +590,16 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                       const Spacer(),
                       ListTile(
                         title: Text(
-                          'Logout',
+                          CommonString.logout,
                           style: TextStyleTheme.customTextStyle(AppTextColor.lightBlack, 16, FontWeight.w500),
                         ),
                         leading: SvgPicture.asset(AppImages.logout),
                         onTap: () {
                           Navigator.pop(context);
-                          showAlertDialog(context, "Logout", "Are you sure you wan't to logout?", "yes", onTapOk: () {
+                          showAlertDialog(context, CommonString.logout, CommonString.areYouSureLogout, CommonString.yes, onTapOk: () {
                             Navigator.pop(context);
                             context.read<HomeBloc>().add(LogoutEvent());
-                          }, isShowCancel: true, cancelButtonText: "No");
+                          }, isShowCancel: true, cancelButtonText: CommonString.no);
                         },
                       ),
                     ],

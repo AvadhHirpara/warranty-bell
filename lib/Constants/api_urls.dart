@@ -34,6 +34,9 @@ class ApiUrls {
   static const deleteNotification = "$baseUrl/delete_notification";
   static const updateNotification = "$baseUrl/read_notification";
 
+  static const privacy = "$baseUrl/get_policy";
+  static const terms = "$baseUrl/get_terms_n_condition";
+
   ///-----------END-ApiUrls-----------
 
   ///-----------START-UrlQueryParams-----------

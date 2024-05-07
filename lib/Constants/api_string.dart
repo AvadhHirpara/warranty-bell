@@ -6,6 +6,10 @@ class CustomExceptionString {
   static const invalidInputException = "Invalid Input: ";
 }
 
+class AppName{
+  static const warrantyBell = "Warranty Bell";
+}
+
 class UserDefault {
   static const user = "user";
 }
@@ -24,17 +28,23 @@ class CommonString {
   static const no = "No";
   static const cancel = "Cancel";
   static const doYouExit = "Do you want to exit?";
+  static const takePicture = "Take a picture";
+  static const cropImage = "Crop Image";
+  static const choosePicture = "Choose a picture";
+  static const products = "Products";
+  static const viewProfile = "View Profile";
+  static const notificationSchedule = "Notification Schedule";
+  static const productHistory = "Product History";
+  static const setting = "Settings";
+  static const logout = "Logout";
+  static const areYouSureLogout = "Are you sure you wan't to logout ? ";
+  static const days = "Days";
 }
 
 ///CommonResponseKey
 class CommonApiResponseKeys{
   static const success = "success";
   static const message = "message";
-  static const eventType = "eugapp_event";
-  static const postType = "post";
-  static const eventDate = "event_date";
-  static const type = "type";
-  static const none = "none";
 }
 
 ///LoginScreenString
@@ -113,6 +123,9 @@ class OtpVerifyString {
 class AddProductString {
   static const currentDate = "Enter Purchase Date";
   static const category = "Category";
+  static const productName = "Product Name";
+  static const enterProductName = "Enter Product Name";
+  static const barcodeNumber = "Barcode Number";
   static const viewAll = "View all";
   static const warrantyCardPhoto = "Add Warranty Card Photo";
   static const uploadOrSelectPhoto = "Upload or Capture your warranty card photo";
@@ -121,6 +134,16 @@ class AddProductString {
   static const discard = "Discard";
   static const supportSvg = "Support JPG file";
   static const removePhoto = "Remove";
+  static const productDetails = "Product Details";
+  static const deleteProduct = "Delete Product";
+  static const areYouSure = "Are you sure you wan't to delete this product ?";
+  static const update = "Update";
+  static const viewPhoto = "Tap to View Photo";
+  static const pleaseSelectPurchaseDate = "Please Select Purchase Date";
+  static const pleaseSelectExpiryDate = "Please Select Warranty Expiry Date";
+  static const pleaseSelectImage = "Please Select Image";
+  static const pleaseSelectCategory = "Please Select Category";
+  static const pleaseSelectSubCategory = "Please Select SubCategory";
 }
 
 ///UserModelKeys
@@ -168,4 +191,33 @@ class HomeString{
   static const edit = "Edit";
   static const delete = "Delete";
   static const remark = "Remark";
+  static const categories = "Categories";
+  static const addProductDetails = "Add Product Details";
+  static const notAddedAnyProduct = "No any product Details added";
+}
+
+class CategoryString{
+  static const category = "Category";
+  static const noSubCategory = "No SubCategory Available";
+}
+
+class NotificationString{
+  static const notification = "Notifications";
+  static const noNotification = "No Notification Available";
+}
+
+class ProductHistoryString{
+  static const productHistory = "Product History";
+  static const noHistoryFound = "No Product History";
+}
+
+class SettingString{
+  static const setting = "Settings";
+  static const notification = "Notification";
+  static const privacyPolicy = "Privacy & Policy";
+  static const terms = "Terms & Conditions";
+  static const support = "Support";
+  static const changePassword = "Change Password";
+  static const deleteAccount = "Delete Account";
+  static const areYouSureDelete = "Are you sure you wan't to delete account ?";
 }
