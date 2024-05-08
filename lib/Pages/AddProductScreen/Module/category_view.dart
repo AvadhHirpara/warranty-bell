@@ -30,8 +30,8 @@ Widget commonCategoryCardView(String? title,String? icon){
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                height: 60,
-                width: 60,
+                height: 50,
+                width: 50,
                 decoration: BoxDecoration(
                   color: AppBackGroundColor.blue,
                   borderRadius: BorderRadius.circular(100),
@@ -42,7 +42,7 @@ Widget commonCategoryCardView(String? title,String? icon){
                 ),
               ),
               paddingTop(10),
-              commonTextView(title ?? '',fontWeight: FontWeight.w500,color: AppTextColor.blue,fontSize: 18,overflow: TextOverflow.ellipsis,maxLines: 1)
+              commonTextView(title ?? '',fontWeight: FontWeight.w500,color: AppTextColor.blue,fontSize: 18,overflow: TextOverflow.ellipsis,maxLines: 1),
             ],
           ),
         ),

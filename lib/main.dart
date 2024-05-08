@@ -29,15 +29,15 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 }
 
 SharedPref sharedPref = SharedPref();
-User userData = User();
+UserData userData = UserData();
 
 loadUserDataSharedPrefs() async {
   var data = await sharedPref.read(UserDefault.user);
-  User user = data != null ? User.fromSharedJson(data) : User();
+  UserData user = data != null ? UserData.fromSharedJson(data) : UserData();
   userData = user;
 }
 
-updateUserDataSharedPrefs(User user) {
+updateUserDataSharedPrefs(UserData user) {
   sharedPref.save(UserDefault.user, user.toSharedJson());
   loadUserDataSharedPrefs();
 }
@@ -49,6 +49,7 @@ Future<void> main(main) async {
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   runApp(const MyApp());
   Bloc.observer = AppBlocObserver();
+  // configLoading();
   userData.deviceToken = (await fcm.getToken());
 }
 
@@ -81,6 +82,7 @@ class MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
       statusBarIconBrightness: Brightness.dark,
@@ -108,7 +110,7 @@ class MyAppState extends State<MyApp> {
           debugShowCheckedModeBanner: false,
           navigatorKey: navState,
           themeMode: ThemeMode.light,
-          title: "Expiry",
+          title: "Warranty Bell",
           initialRoute:splashScreen,
           onGenerateRoute: Routes.onGenerateRoute,
           scrollBehavior:
@@ -134,7 +136,7 @@ class AppBlocObserver extends BlocObserver {
     // if (change.nextState is InternetConnectionDisconnected) {
     //   awesomeTopSnackbar(navState.currentContext!, "Internet Connection Lost");
     // } else if (change.nextState is InternetConnectionConnected) {
-    //   showSuccessSnackBar(navState.currentContext!, "Internet Connection Connected");
+    //   awesomeTopSnackbar(navState.currentContext!, "Internet Connection Connected");
     // }
 
     log('onChange: ${bloc.runtimeType}, ${bloc.state} \nCurrent state: ${change.currentState}\nNext state: ${change.nextState}');

@@ -65,7 +65,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
       var res = await ApiService.request(ApiUrls.updateProfile, RequestMethods.POSTFILE, showLogs: true,header: tokeWithHeader,requestBody: body,postFiles:state.profileImage);
       if(res != null){
         if(res[UserModelKeys.data] != null) {
-          User userRes = User.fromJson(res[UserModelKeys.data]);
+          UserData userRes = UserData.fromJson(res[UserModelKeys.data]);
           userData.firstName = userRes.firstName;
           userData.lastName = userRes.lastName;
           userData.profile = userRes.profile;

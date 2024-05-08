@@ -62,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
             hideProgress(context);
           } else if (state.status == LoadStatus.success && state.flag == "logout") {
             hideProgress(context);
-            userData = User();
+            userData = UserData();
             userData.authToken = null;
             sharedPref.removeAll();
             Navigator.pushNamedAndRemoveUntil(context, login, (route) => false);

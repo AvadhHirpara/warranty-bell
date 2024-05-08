@@ -12,7 +12,20 @@
           "package_name": "com.myapp.warrantybell"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "1008228895871-n7m102bnh1888ii8360el00m84m9p5og.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.myapp.warrantybell",
+            "certificate_hash": "e1383a5bde2b4d6272920866b812ef2f21392f55"
+          }
+        },
+        {
+          "client_id": "1008228895871-bpahjt7nhkkta98n2g8anpu8k94p2293.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCfgOTxx_8Cq02LVcgJc6_qFJhrh8Kj0jQ"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1008228895871-bpahjt7nhkkta98n2g8anpu8k94p2293.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1008228895871-7084kjetd21e88jv3lsqdgmgbr34bb4p.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.myapp.warrantybell"
+              }
+            }
+          ]
         }
       }
     }

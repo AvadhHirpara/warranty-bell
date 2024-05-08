@@ -71,7 +71,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       var res = await ApiService.request(ApiUrls.register, RequestMethods.POSTFILE, showLogs: true, header: commonHeaderWithMultiPartFormData, requestBody: body,postFiles:imageFile);
           if(res[UserModelKeys.data] != null){
             if (res[UserModelKeys.data] != null || res['statuscode'] == 201) {
-              User userRes = User.fromJson(res[UserModelKeys.data]);
+              UserData userRes = UserData.fromJson(res[UserModelKeys.data]);
               userData.userId = userRes.userId;
               userData.displayName ="${userData.firstName ?? ''} ${userData.lastName ?? ''}";
               userData.authToken = userRes.authToken;

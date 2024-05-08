@@ -14,6 +14,7 @@ import 'package:WarrantyBell/utils/routes.dart';
 import 'package:WarrantyBell/utils/validation.dart';
 import 'package:WarrantyBell/widgets/common_button.dart';
 import 'package:WarrantyBell/widgets/common_text_view.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -181,49 +182,73 @@ class _LoginScreenState extends State<LoginScreen> {
                           ],
                         ),
                         paddingTop(20),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Container(
-                                padding: const EdgeInsets.all(15),
-                                decoration: BoxDecoration(
-                                  color: AppBackGroundColor.lightGrey,
-                                  borderRadius: BorderRadius.circular(14),
-                                ),
-                                child: Row(
-                                  children: [
-                                    SvgPicture.asset(AppImages.facebook),
-                                    const SizedBox(width: 8),
-                                    Text(
-                                        LoginString.facebook,
-                                        style: TextStyleTheme.customTextStyle(AppTextColor.darkGrey, 16, FontWeight.w500)
-                                    ),
-                                  ],
-                                ),
-                              ),
+                        // Row(
+                        //   children: [
+                        //     Expanded(
+                        //       child: Container(
+                        //         padding: const EdgeInsets.all(15),
+                        //         decoration: BoxDecoration(
+                        //           color: AppBackGroundColor.lightGrey,
+                        //           borderRadius: BorderRadius.circular(14),
+                        //         ),
+                        //         child: Row(
+                        //           children: [
+                        //             SvgPicture.asset(AppImages.facebook),
+                        //             const SizedBox(width: 8),
+                        //             Text(
+                        //                 LoginString.facebook,
+                        //                 style: TextStyleTheme.customTextStyle(AppTextColor.darkGrey, 16, FontWeight.w500)
+                        //             ),
+                        //           ],
+                        //         ),
+                        //       ),
+                        //     ),
+                        //
+                        //     const SizedBox(width: 15),
+                        //     Expanded(
+                        //       child: Container(
+                        //         padding: const EdgeInsets.all(15),
+                        //         decoration: BoxDecoration(
+                        //           color: AppBackGroundColor.lightGrey,
+                        //           borderRadius: BorderRadius.circular(14),
+                        //         ),
+                        //         child: Row(
+                        //           children: [
+                        //             SvgPicture.asset(AppImages.google),
+                        //             const SizedBox(width: 8),
+                        //             Text(
+                        //                 LoginString.google,
+                        //                 style: TextStyleTheme.customTextStyle(AppTextColor.darkGrey, 16, FontWeight.w500)
+                        //             ),
+                        //           ],
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
+                        GestureDetector(
+                          onTap: (){
+                            context.read<LoginBloc>().add(GoogleLoginEvent());
+                          },
+                          child: Container(
+                            height: 50,
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              color: AppBackGroundColor.lightGrey,
+                              borderRadius: BorderRadius.circular(14),
                             ),
-
-                            const SizedBox(width: 15),
-                            Expanded(
-                              child: Container(
-                                padding: const EdgeInsets.all(15),
-                                decoration: BoxDecoration(
-                                  color: AppBackGroundColor.lightGrey,
-                                  borderRadius: BorderRadius.circular(14),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SvgPicture.asset(AppImages.google),
+                                const SizedBox(width: 8),
+                                Text(
+                                    LoginString.google,
+                                    style: TextStyleTheme.customTextStyle(AppTextColor.darkGrey, 16, FontWeight.w500)
                                 ),
-                                child: Row(
-                                  children: [
-                                    SvgPicture.asset(AppImages.google),
-                                    const SizedBox(width: 8),
-                                    Text(
-                                        LoginString.google,
-                                        style: TextStyleTheme.customTextStyle(AppTextColor.darkGrey, 16, FontWeight.w500)
-                                    ),
-                                  ],
-                                ),
-                              ),
+                              ],
                             ),
-                          ],
+                          ),
                         ),
                         paddingTop(35),
                         commonButton(LoginString.login, () {

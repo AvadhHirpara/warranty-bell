@@ -1,6 +1,6 @@
 import 'package:WarrantyBell/Constants/api_string.dart';
 
-class User {
+class UserData {
   String? userId;
   String? email;
   String? password;
@@ -16,7 +16,7 @@ class User {
   String? profile;
   bool? notificationStatus;
 
-  User({
+  UserData({
     this.userId = '',
     this.email = '',
     this.password = '',
@@ -33,7 +33,7 @@ class User {
     this.notificationStatus = false
   });
 
-  User.fromJson(Map<String, dynamic> json) {
+  UserData.fromJson(Map<String, dynamic> json) {
     userId = json[UserModelKeys.id].toString() ?? '';
     email = json[UserModelKeys.email] ?? '';
     password = json[UserModelKeys.password] ?? '';
@@ -51,7 +51,7 @@ class User {
     notificationStatus = json[UserModelKeys.notificationStatus] ?? false;
   }
 
-  User.fromSharedJson(Map<String, dynamic> json) {
+  UserData.fromSharedJson(Map<String, dynamic> json) {
     userId = json[UserModelKeys.id] ?? '';
     email = json[UserModelKeys.email] ?? '';
     password = json[UserModelKeys.password] ?? '';

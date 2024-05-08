@@ -64,6 +64,7 @@ dependencies:
   syncfusion_flutter_pdf: ^25.1.42
   external_path: ^1.0.3
   flutter_html: ^3.0.0-alpha.5
+  google_sign_in: ^6.2.1
 
 dev_dependencies:
   flutter_test:

@@ -39,7 +39,7 @@ class AddProductScreen extends StatefulWidget {
 }
 
 class _AddProductScreenState extends State<AddProductScreen> {
-  List<FocusNode> focusNode = [FocusNode(), FocusNode(), FocusNode(), FocusNode(), FocusNode()];
+  List<FocusNode> focusNode = [FocusNode(), FocusNode(), FocusNode(), FocusNode()];
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   AutovalidateMode validate = AutovalidateMode.disabled;
 
@@ -463,7 +463,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                         )
                           : Container(),
                       paddingTop(15),
-                      customTextField(MediaQuery.of(context).size.width, AddProductString.barcodeNumber, TextAlign.left, productBarcodeNumber, (value) => validateEmptyField(value), focusNode[3], (value) => '',
+                      customTextField(MediaQuery.of(context).size.width, AddProductString.barcodeNumber, TextAlign.left, productBarcodeNumber, (value) => validateEmptyField(value), focusNode[2], (value) => '',
                           (value) {
                         FocusScope.of(context).requestFocus();
                       }, false, TextInputAction.next, TextInputType.name, TextCapitalization.none, "15862345786", context, '',
@@ -475,7 +475,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                           TextAlign.left,
                           productExpiryDate,
                           (value) => null,
-                          focusNode[4],
+                          focusNode[3],
                           (value) => '',
                           (value) {
                             FocusScope.of(context).requestFocus();

@@ -136,7 +136,6 @@ class NotificationService {
               importance: Importance.max,
               priority: Priority.high,
               icon: initializationSettingsAndroid.defaultIcon,
-              ongoing: true
             ),
           ));
     }
@@ -165,7 +164,6 @@ Future<void> showNotification(RemoteMessage message) async {
     androidNotificationChannel.name.toString(),
     channelDescription: androidNotificationChannel.description,
     importance: Importance.max,
-    ongoing: true,
     priority: Priority.high,
     icon: '@mipmap/ic_launcher',
     playSound: true,

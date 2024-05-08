@@ -205,8 +205,7 @@ class AddProductBloc extends Bloc<AddProductEvent, AddProductState> {
             SubCategoryModel subCategoryModel = SubCategoryModel.fromJson(element ?? {});
             subCategoryList.add(subCategoryModel);
           }
-
-          emit(state.copyWith(status:LoadStatus.success/*,flag: "subCategory"*/,subCategoryList: subCategoryList));
+          emit(state.copyWith(status:LoadStatus.success,flag: "subCategory",subCategoryList: subCategoryList));
         }else{
           emit(state.copyWith(status:LoadStatus.failure));
         }

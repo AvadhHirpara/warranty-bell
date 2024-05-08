@@ -217,44 +217,44 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ],
                         ),
                         paddingTop(20),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Container(
-                                padding: const EdgeInsets.all(15),
-                                decoration: BoxDecoration(
-                                  color: AppBackGroundColor.lightGrey,
-                                  borderRadius: BorderRadius.circular(14),
-                                ),
-                                child: Row(
-                                  children: [
-                                    SvgPicture.asset(AppImages.facebook),
-                                    const SizedBox(width: 8),
-                                    Text(LoginString.facebook, style: TextStyleTheme.customTextStyle(AppTextColor.darkGrey, 16, FontWeight.w500)),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            const SizedBox(width: 15),
-                            Expanded(
-                              child: Container(
-                                padding: const EdgeInsets.all(15),
-                                decoration: BoxDecoration(
-                                  color: AppBackGroundColor.lightGrey,
-                                  borderRadius: BorderRadius.circular(14),
-                                ),
-                                child: Row(
-                                  children: [
-                                    SvgPicture.asset(AppImages.google),
-                                    const SizedBox(width: 8),
-                                    Text(LoginString.google, style: TextStyleTheme.customTextStyle(AppTextColor.darkGrey, 16, FontWeight.w500)),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        paddingTop(10),
+                        // Row(
+                        //   children: [
+                        //     Expanded(
+                        //       child: Container(
+                        //         padding: const EdgeInsets.all(15),
+                        //         decoration: BoxDecoration(
+                        //           color: AppBackGroundColor.lightGrey,
+                        //           borderRadius: BorderRadius.circular(14),
+                        //         ),
+                        //         child: Row(
+                        //           children: [
+                        //             SvgPicture.asset(AppImages.facebook),
+                        //             const SizedBox(width: 8),
+                        //             Text(LoginString.facebook, style: TextStyleTheme.customTextStyle(AppTextColor.darkGrey, 16, FontWeight.w500)),
+                        //           ],
+                        //         ),
+                        //       ),
+                        //     ),
+                        //     const SizedBox(width: 15),
+                        //     Expanded(
+                        //       child: Container(
+                        //         padding: const EdgeInsets.all(15),
+                        //         decoration: BoxDecoration(
+                        //           color: AppBackGroundColor.lightGrey,
+                        //           borderRadius: BorderRadius.circular(14),
+                        //         ),
+                        //         child: Row(
+                        //           children: [
+                        //             SvgPicture.asset(AppImages.google),
+                        //             const SizedBox(width: 8),
+                        //             Text(LoginString.google, style: TextStyleTheme.customTextStyle(AppTextColor.darkGrey, 16, FontWeight.w500)),
+                        //           ],
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
+                        // paddingTop(10),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -286,7 +286,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       style: TextStyleTheme.customTextStyle(AppTextColor.navyBlue, 14, FontWeight.w400),
                                       recognizer: TapGestureRecognizer()
                                         ..onTap = () async {
-                                          Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()));
+                                          Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginScreen()));
                                         },
                                     ),
                                     TextSpan(
@@ -298,7 +298,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       style: TextStyleTheme.customTextStyle(AppTextColor.navyBlue, 14, FontWeight.w400),
                                       recognizer: TapGestureRecognizer()
                                         ..onTap = () async {
-                                          Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()));
+                                          Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginScreen()));
                                         },
                                     ),
                                   ],

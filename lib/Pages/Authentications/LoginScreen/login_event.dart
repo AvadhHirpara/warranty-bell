@@ -22,6 +22,10 @@ class ValidateValueEvent extends LoginEvent {
   const ValidateValueEvent(this.email, this.password);
 }
 
+class GoogleLoginEvent extends LoginEvent{
+
+}
+
 class LoginButtonEvent extends LoginEvent{
   final String? email;
   final String? password;
