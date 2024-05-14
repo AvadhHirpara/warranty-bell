@@ -14,6 +14,13 @@ class DeleteProductEvent extends HomeEvent{
 
 class LogoutEvent extends HomeEvent{}
 
+
+class ChangeTabEvent extends HomeEvent{
+  bool? isSelectCategories;
+  bool? isSelectProduct;
+
+   ChangeTabEvent({this.isSelectProduct = true, this.isSelectCategories = false});
+}
 class SearchProductEvent extends HomeEvent{
   String? searchText;
   List<Datum>? searchProduct = [];

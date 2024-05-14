@@ -1,6 +1,10 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+import 'package:WarrantyBell/Model/user_data_model.dart';
+import 'package:WarrantyBell/Pages/HomeScreen/home_bloc.dart';
+import 'package:WarrantyBell/Style/text_style.dart';
+import 'package:WarrantyBell/Utils/routes.dart';
 import 'package:awesome_top_snackbar/awesome_top_snackbar.dart';
 import 'package:WarrantyBell/Constants/api_string.dart';
 import 'package:WarrantyBell/Constants/color_constants.dart';
@@ -8,6 +12,7 @@ import 'package:WarrantyBell/Networking/NetworkHelper/custom_exception.dart';
 import 'package:WarrantyBell/Utils/Mixins/progress_indicator.dart';
 import 'package:WarrantyBell/main.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:http_parser/http_parser.dart';
@@ -63,36 +68,32 @@ class ApiService {
   
       if (response != null && response is http.Response) {
         if (response.statusCode == 200 ||response.statusCode == 201 && response.body.isNotEmpty) {
-          return jsonDecode(response.body);
+          var decode = jsonDecode(response.body);
+          if(decode["statuscode"] == 401){
+            ScaffoldMessenger.of(contextApi).showSnackBar(
+                SnackBar(
+                  behavior: SnackBarBehavior.floating,
+                  backgroundColor: AppBackGroundColor.blue,
+                  content: Text(decode["message"],style: TextStyleTheme.customTextStyle(AppTextColor.white, 16, FontWeight.w500),),
+                )
+            );
+            userData = UserData();
+            userData.authToken = null;
+            sharedPref.removeAll();
+              Navigator.pushNamed(contextApi, login);
+          }else{
+            return jsonDecode(response.body);
+          }
         } else {
-          if (response.statusCode == 404 || response.statusCode == 502) {
+          if (response.statusCode == 404 || response.statusCode == 401) {
             log("---!! AuthenticationFailed !!---");
             var displayError = jsonDecode(response.body);
-            // if(displayError[ApiValidationKEYs.data][ApiValidationKEYs.invalidEmail] != null){
-            //   showAlertDialog(context!, Languages.of(context)!.commonStringTr.oops, Languages.of(NavigationService.navigatorKey.currentContext!)!.validationStringTr.validEmail, Languages.of(context)!.commonStringTr.ok);
-            // }
-            // else if(displayError[ApiValidationKEYs.data][ApiValidationKEYs.emailNotFound] != null){
-            //   showAlertDialog(context!, Languages.of(context)!.commonStringTr.oops, Languages.of(NavigationService.navigatorKey.currentContext!)!.validationStringTr.emailNotExists, Languages.of(context)!.commonStringTr.ok, onTapOk: (){pushReplacement(context, WelcomeScreen());});
-            // } else if(displayError[ApiValidationKEYs.data][ApiValidationKEYs.incorrectPassword] != null){
-            //   showAlertDialog(context!, Languages.of(context)!.commonStringTr.oops, Languages.of(NavigationService.navigatorKey.currentContext!)!.validationStringTr.validPassword, Languages.of(context)!.commonStringTr.ok);
-            // }else if (displayError[ApiValidationKEYs.data][ApiValidationKEYs.existingUserLogin] != null){
-            //   showAlertDialog(context!, Languages.of(context)!.commonStringTr.oops, Languages.of(NavigationService.navigatorKey.currentContext!)!.validationStringTr.userAllReadyExists, Languages.of(context)!.commonStringTr.ok);
-            // }else if (displayError[ApiValidationKEYs.data][ApiValidationKEYs.existingUserEmail] != null){
-            //   showAlertDialog(context!, Languages.of(context)!.commonStringTr.oops, Languages.of(NavigationService.navigatorKey.currentContext!)!.validationStringTr.userEmailExists, Languages.of(context)!.commonStringTr.ok);
-            // }else if (displayError[ApiValidationKEYs.data][ApiValidationKEYs.error] != null){
-            //   showAlertDialog(context!, Languages.of(context)!.commonStringTr.oops, Languages.of(NavigationService.navigatorKey.currentContext!)!.validationStringTr.emailNotExists, Languages.of(context)!.commonStringTr.ok);
-            // }else if (displayError[ApiValidationKEYs.data][ApiValidationKEYs.emailError] != null){
-            //   showAlertDialog(context!, Languages.of(context)!.commonStringTr.oops, Languages.of(NavigationService.navigatorKey.currentContext!)!.validationStringTr.emailNotExists, Languages.of(context)!.commonStringTr.ok);
-            // }else if (displayError[ApiValidationKEYs.data][ApiValidationKEYs.tokenError] != null){
-            //   showAlertDialog(context!, Languages.of(context)!.commonStringTr.oops, Languages.of(NavigationService.navigatorKey.currentContext!)!.validationStringTr.invalidToken, Languages.of(context)!.commonStringTr.ok);
-            // }
           } else if (response.statusCode == 500){
             log("---!! some thing went wrong status code is ${response.statusCode} !!---");
           }
           else {
             var error = responseCodeHandle(navState.currentContext!, response).toString();
             log("--- Error : $error");
-            // showToast(contextApi, error, Toast.LENGTH_SHORT);
           }
           return null;
         }
@@ -100,12 +101,9 @@ class ApiService {
         return jsonDecode(multiPartResponse);
       }else{
         log("---!! somethingWentWrong !!---");
-        // showToast(contextApi, apiString.somethingWentWrong, Toast.LENGTH_SHORT);
         return null;
       }
     } on SocketException catch (_) {
-    
-      // showToast(contextApi, apiString.mobileDataOff, Toast.LENGTH_SHORT);
     } catch (e) {
       if (showLogs) {
         log("---Error : $e");

@@ -49,8 +49,8 @@ Future<void> main(main) async {
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   runApp(const MyApp());
   Bloc.observer = AppBlocObserver();
-  // configLoading();
   userData.deviceToken = (await fcm.getToken());
+  print("device token main is ${userData.deviceToken}");
 }
 
 class MyApp extends StatefulWidget {
@@ -115,13 +115,6 @@ class MyAppState extends State<MyApp> {
           onGenerateRoute: Routes.onGenerateRoute,
           scrollBehavior:
           const ScrollBehavior().copyWith(scrollbars: false),
-          // builder: (context, widget) {
-          //   final connectionState =
-          //       context.watch<ConnectionCheckerCubit>().state;
-          //   widget = WrapScreenUtils(child: widget ?? const Offstage());
-          //   widget = EasyLoading.init()(context, widget);
-          //   return widget;
-          // },
         ),
       ),
     );

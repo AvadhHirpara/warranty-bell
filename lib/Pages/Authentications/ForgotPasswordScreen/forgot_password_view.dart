@@ -60,7 +60,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          title: GestureDetector(onTap: (){  Navigator.pop(context);},child: const Icon(Icons.arrow_back,size: 25,)),
+          leading: GestureDetector(onTap: (){  Navigator.pop(context);},child: const Icon(Icons.arrow_back,size: 25,)),
         ),
           body: Container(
             width: width,

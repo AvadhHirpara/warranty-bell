@@ -59,7 +59,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
             child: Scaffold(
               appBar: AppBar(
                 automaticallyImplyLeading: false,
-                title: GestureDetector(
+                leading: GestureDetector(
                     onTap: () {
                       Navigator.pop(context);
                     },

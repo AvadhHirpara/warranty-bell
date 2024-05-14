@@ -60,7 +60,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
             child: Scaffold(
               appBar: AppBar(
                 automaticallyImplyLeading: false,
-                title: GestureDetector(
+                leading: GestureDetector(
                     onTap: () {
                       Navigator.pop(context);
                     },

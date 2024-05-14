@@ -41,6 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   getToken() async {
     userData.deviceToken = (await fcm.getToken()) ?? '';
+    print("device token login is ${userData.deviceToken}");
   }
 
   @override

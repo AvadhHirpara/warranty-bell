@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:WarrantyBell/widgets/custom_app_bar.dart';
 import 'package:app_settings/app_settings.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -122,25 +123,6 @@ class NotificationService {
     });
   }
 
-  sendLocalNotification(String title,String message,int id,{String methodName = '',String notificationId = ''}){
-    if(title.isNotEmpty && message.isNotEmpty) {
-      var initializationSettingsAndroid = const AndroidInitializationSettings('@mipmap/ic_launcher');
-      _flutterLocalNotificationsPlugin.show(
-          id,
-          title,
-          message,
-          NotificationDetails(
-            android: AndroidNotificationDetails(
-              'post_channel',
-              'post_channel',
-              importance: Importance.max,
-              priority: Priority.high,
-              icon: initializationSettingsAndroid.defaultIcon,
-            ),
-          ));
-    }
-  }
-
 }
 
 Future<void> showNotification(RemoteMessage message) async {
@@ -172,6 +154,7 @@ Future<void> showNotification(RemoteMessage message) async {
     largeIcon: const DrawableResourceAndroidBitmap('@mipmap/ic_launcher'),
   );
 
+
   DarwinNotificationDetails darwinNotificationDetails =
   DarwinNotificationDetails(presentBanner: true,presentAlert: true, presentBadge: true, presentSound: true, subtitle: notification?.body ?? "");
   NotificationDetails notificationDetails = NotificationDetails(
@@ -180,6 +163,8 @@ Future<void> showNotification(RemoteMessage message) async {
   );
 
   if (Platform.isAndroid) {
+    FlutterLocalNotificationsPlugin().show(0, notification?.title ?? "", notification?.body ?? "", notificationDetails);
+  }else if(Platform.isIOS){
     FlutterLocalNotificationsPlugin().show(0, notification?.title ?? "", notification?.body ?? "", notificationDetails);
   }
   handleNotification(message.data, AppState.foreground);
@@ -231,3 +216,4 @@ void handleNotification(Map<String, dynamic> message, AppState appState) {
 
 
 enum AppState { foreground, background, terminated }
+

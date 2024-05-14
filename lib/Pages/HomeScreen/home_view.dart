@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:WarrantyBell/Element/responsive_size_value.dart';
 import 'package:WarrantyBell/Model/product_model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:WarrantyBell/Constants/api_string.dart';
@@ -20,14 +19,15 @@ import 'package:WarrantyBell/main.dart';
 import 'package:WarrantyBell/utils/Mixins/app_exit_dialog.dart';
 import 'package:WarrantyBell/widgets/common_text_view.dart';
 import 'package:WarrantyBell/widgets/custom_app_bar.dart';
-import 'package:external_path/external_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lecle_downloads_path_provider/constants/downloads_directory_type.dart';
+import 'package:lecle_downloads_path_provider/lecle_downloads_path_provider.dart';
 import 'package:mobkit_dashed_border/mobkit_dashed_border.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart';
-import 'package:flutter/services.dart' show rootBundle;
+import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -41,11 +41,9 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   @override
   void initState() {
     context.read<HomeBloc>().add(HomeInitialEvent());
-    tabController = TabController(length: 2, vsync: this);
     super.initState();
   }
 
-  TabController? tabController;
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
 
   @override
@@ -87,224 +85,208 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                       });
                       Navigator.pushNamed(context, notificationScreen);
                     })),
-                body: Padding(
-                  padding: const EdgeInsets.only(left: 20,right:20),
-                  child: SingleChildScrollView(
-                    physics: const NeverScrollableScrollPhysics(),
+                body: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 15),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                      paddingTop(15),
                         state.productsList?.isNotEmpty ?? false ?  Column(
                           children: [
                             Container(
-                              width: MediaQuery.of(context).size.width,
-                              height: 45,
                               decoration: BoxDecoration(
-                                color: Colors.grey[300],
-                                borderRadius: BorderRadius.circular(10.0,),
+                                borderRadius: BorderRadius.circular(05),
+                                border: Border.all(width: 1,color: AppBorderColor.grey.withOpacity(0.1))
                               ),
-                              child: TabBar(
-                                isScrollable: false,
-                                controller: tabController,
-                                indicator: BoxDecoration(
-                                  gradient: const LinearGradient(
-                                      end: Alignment.centerRight,
-                                      colors: <Color>[AppBarColor.lightBlue,AppBarColor.blue]),
-                                  borderRadius: BorderRadius.circular(10.0),
-                                ),
-                                indicatorSize: TabBarIndicatorSize.tab,
-                                labelColor: Colors.white,
-                                unselectedLabelColor: Colors.black,
-                                tabs: const [
-                                  Tab(text: HomeString.myProduct,),
-                                  Tab(text: HomeString.categories),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: GestureDetector(
+                                      onTap: (){
+                                        context.read<HomeBloc>().add(ChangeTabEvent(isSelectProduct: true,isSelectCategories: false));
+                                      },
+                                      child: Container(
+                                        alignment: Alignment.center,
+                                        padding: const EdgeInsets.all(10),
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(05),
+                                          gradient: LinearGradient(
+                                                      end: Alignment.centerRight,
+                                              colors: state.isSelectProduct == true ? <Color>[AppBarColor.lightBlue,AppBarColor.blue] : <Color>[AppBackGroundColor.white,AppBackGroundColor.white]),
+                                        ),
+                                        child: Text(HomeString.myProduct,style: TextStyleTheme.customTextStyle(state.isSelectProduct == true ? AppTextColor.white : AppTextColor.black, 16, FontWeight.w500),),
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: GestureDetector(
+                                      onTap: (){
+                                        context.read<HomeBloc>().add(ChangeTabEvent(isSelectProduct: false,isSelectCategories: true));
+                                      },
+                                      child: Container(
+                                        padding: const EdgeInsets.all(10),
+                                        alignment: Alignment.center,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(05),
+                                          gradient: LinearGradient(
+                                              end: Alignment.centerRight,
+                                              colors: state.isSelectCategories == true ? <Color>[AppBarColor.lightBlue,AppBarColor.blue] : <Color>[AppBackGroundColor.white,AppBackGroundColor.white]),
+                                        ),
+                                        child: Text(HomeString.categories,style: TextStyleTheme.customTextStyle(state.isSelectCategories == true ? AppTextColor.white : AppTextColor.black, 16, FontWeight.w500),),
+                                      ),
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
-                            /// tab bar view here
-                            SizedBox(
-                              height:setHeight(560),
-                              child: TabBarView(
-                                controller: tabController,
-                                physics: const NeverScrollableScrollPhysics(),
-                                children: [
-                                  state.productsList?.isNotEmpty ?? false
-                                      ? ListView.builder(
-                                          shrinkWrap: true,
-                                          itemCount: state.productsList?.length ?? 0,
-                                          itemBuilder: (context, index) {
-                                            return GestureDetector(
-                                              onTap: (){
-                                                Navigator.pushNamed(context, addProductScreen, arguments: {"productModel": state.productsList?[index], "isEdit": true,"isView" : false,"isNotification" : false});
-                                              },
-                                              child: Padding(
-                                                padding: const EdgeInsets.symmetric(vertical: 10),
-                                                child: Container(
-                                                  decoration: BoxDecoration(
-                                                    color: AppBackGroundColor.white,
-                                                    borderRadius: BorderRadius.circular(15),
-                                                    boxShadow: [
-                                                      BoxShadow(
-                                                        color: Colors.black.withOpacity(0.1),
-                                                        offset: const Offset(0, 1),
-                                                        blurRadius: 2,
-                                                        spreadRadius: 2,
-                                                      )
-                                                    ],
-                                                  ),
-                                                  child: Column(
-                                                    children: [
-                                                      Row(
-                                                        children: [
-                                                          Container(
-                                                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(90),),
-                                                            child: ClipRRect(
-                                                              borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(10),topLeft:Radius.circular(10)),
-                                                              child: CachedNetworkImage(
-                                                                imageUrl: "${ApiUrls.imageUrl}${state.productsList?[index].photo}",
-                                                                height: 120,
-                                                                width: 100,
-                                                                fit: BoxFit.cover,
-                                                                placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
-                                                                errorWidget: (context, url, error) => Image.asset('', height: 100, width: 90, fit: BoxFit.cover),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          const SizedBox(width: 10),
-                                                          Expanded(
-                                                            child: Column(
-                                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                                              children: [
-                                                                commonRichText(HomeString.productName, state.productsList?[index].productName),
-                                                                paddingTop(02),
-                                                                commonRichText(
-                                                                  HomeString.category,
-                                                                  "${state.productsList?[index].categoryName}(${state.productsList?[index].subCategoryName})",
-                                                                ),
-                                                                paddingTop(02),
-                                                                commonRichText(HomeString.currentDate, outputFormat.format(state.productsList![index].purchaseDate!),maxLine: 2),
-                                                                paddingTop(02),
-                                                                commonRichText(HomeString.warrantyDate, outputFormat.format(state.productsList![index].warrantyExpiryDate!),maxLine: 2),
-                                                                // GestureDetector(
-                                                                //     onTap: (){
-                                                                //       createPDF(state.productsList![index]).then((value){
-                                                                //         print("download path is $value");
-                                                                //       });
-                                                                //     },
-                                                                //     child: commonRichText("Download pdf", state.productsList?[index].barcodeNumber.toString())),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      // state.productsList?[index].remark != ''
-                                                      //     ? Column(
-                                                      //         crossAxisAlignment: CrossAxisAlignment.start,
-                                                      //         children: [
-                                                      //           commonTextView(HomeString.remark, color: AppTextColor.lightBlack, fontSize: 14, fontWeight: FontWeight.w500),
-                                                      //           commonTextView(state.productsList?[index].remark ?? '',
-                                                      //               color: AppTextColor.lightBlack, fontSize: 12, fontWeight: FontWeight.w400, align: TextAlign.start),
-                                                      //         ],
-                                                      //       )
-                                                      //     : const Offstage(),
-                                                      // paddingTop(15),
-                                                      // Row(
-                                                      //   children: [
-                                                      //     Expanded(
-                                                      //         child: commonButton(HomeString.edit, () {
-                                                      //       Navigator.pushNamed(context, addProductScreen, arguments: {"productModel": state.productsList?[index], "isEdit": true});
-                                                      //     }, 50)),
-                                                      //     const SizedBox(
-                                                      //       width: 10,
-                                                      //     ),
-                                                      //     Expanded(
-                                                      //         child: commonButton(HomeString.delete, () {
-                                                      //       showAlertDialog(context, "Delete Product", "Are you sure you wan't to delete this product ?", "yes", onTapOk: () {
-                                                      //         Navigator.pop(context);
-                                                      //         context.read<HomeBloc>().add(DeleteProductEvent(productModel: state.productsList?[index]));
-                                                      //       }, isShowCancel: true, cancelButtonText: "No");
-                                                      //     }, 50, buttonColor: AppButtonColor.lightGrey, textColor: AppTextColor.lightBlack)),
-                                                      //   ],
-                                                      // ),
-                                                      // paddingBottom(05)
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            );
-                                          })
-                                      : const Offstage(),
-                              ListView.builder(
+                            state.isSelectProduct == true ? state.productsList?.isNotEmpty ?? false
+                                ? ListView.builder(
                                 shrinkWrap: true,
-                                  // physics: const NeverScrollableScrollPhysics(),
-                                  itemCount: state.categoryList?.length ?? 0,
-                                  itemBuilder: (BuildContext contexts,index){
-                                return Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 10),
-                                  child: GestureDetector(
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: state.productsList?.length ?? 0,
+                                itemBuilder: (context, index) {
+                                  return GestureDetector(
                                     onTap: (){
-                                      if(state.categoryList?[index].productCount != 0){
-                                        Navigator.pushNamed(contexts, categoryProduct, arguments: {"categoryId" : state.categoryList?[index].sId});
-                                      }
+                                      Navigator.pushNamed(context, addProductScreen, arguments: {"productModel": state.productsList?[index], "isEdit": true,"isView" : false,"isNotification" : false});
                                     },
-                                    child: Container(
-                                      width: MediaQuery.of(context).size.width,
-                                      decoration: BoxDecoration(
-                                        color: AppBackGroundColor.white,
-                                        borderRadius: BorderRadius.circular(8),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.black.withOpacity(0.1),
-                                            offset: const Offset(0, 1),
-                                            blurRadius: 5,
-                                            spreadRadius: 0,
-                                          )
-                                        ],
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 05),
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(vertical: 05),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: AppBackGroundColor.white,
+                                          borderRadius: BorderRadius.circular(15),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.black.withOpacity(0.1),
+                                              offset: const Offset(0, 1),
+                                              blurRadius: 2,
+                                              spreadRadius: 2,
+                                            )
+                                          ],
+                                        ),
+                                        child: Column(
                                           children: [
                                             Row(
                                               children: [
                                                 Container(
-                                                  height: 60,
-                                                  width: 60,
-                                                  decoration: BoxDecoration(
-                                                    color: AppBackGroundColor.blue,
-                                                    borderRadius: BorderRadius.circular(100),
-                                                  ),
-                                                  child: Padding(
-                                                    padding: const EdgeInsets.all(15.0),
-                                                    child: Image.network("${ApiUrls.imageUrl}${state.categoryList?[index].categoryImage}" ?? '',color: AppIconColor.white),
+                                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(90),),
+                                                  child: ClipRRect(
+                                                    borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(10),topLeft:Radius.circular(10)),
+                                                    child: CachedNetworkImage(
+                                                      imageUrl: "${ApiUrls.imageUrl}${state.productsList?[index].photo}",
+                                                      height: 120,
+                                                      width: 100,
+                                                      fit: BoxFit.cover,
+                                                      placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
+                                                      errorWidget: (context, url, error) => Image.asset('', height: 100, width: 90, fit: BoxFit.cover),
+                                                    ),
                                                   ),
                                                 ),
-                                                const SizedBox(width: 15),
-                                                commonTextView(state.categoryList?[index].categoryName ?? '',fontWeight: FontWeight.w500,color: AppTextColor.blue,fontSize: 18,overflow: TextOverflow.ellipsis,maxLines: 1),
+                                                const SizedBox(width: 10),
+                                                Expanded(
+                                                  child: Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      commonRichText(HomeString.productName, state.productsList?[index].productName),
+                                                      paddingTop(02),
+                                                      commonRichText(
+                                                        HomeString.category,
+                                                        "${state.productsList?[index].categoryName}(${state.productsList?[index].subCategoryName})",
+                                                      ),
+                                                      paddingTop(02),
+                                                      commonRichText(HomeString.currentDate, outputFormat.format(state.productsList![index].purchaseDate!),maxLine: 2),
+                                                      paddingTop(02),
+                                                      commonRichText(HomeString.warrantyDate, outputFormat.format(state.productsList![index].warrantyExpiryDate!),maxLine: 2),
+                                                      GestureDetector(
+                                                          onTap: (){
+                                                            // createPDF(state.productsList![index]).then((value){
+                                                            //   print("download path is $value");
+                                                            // });
+                                                            createPDF(state.productsList![index]);
+                                                          },
+                                                          child: const Align(
+                                                              alignment: Alignment.centerRight,
+                                                              child: Padding(
+                                                                padding: EdgeInsets.symmetric(horizontal: 05),
+                                                                child: Icon(Icons.download_rounded,color: AppIconColor.blue,),
+                                                              )) /*commonRichText("Download pdf", '')*/),
+                                                    ],
+                                                  ),
+                                                ),
                                               ],
                                             ),
-                                          state.categoryList?[index].productCount != 0 ?   Container(
-                                            alignment: Alignment.center,
-                                            height: 25,
-                                              width: 25,
-                                              decoration: BoxDecoration(
-                                                color: AppBackGroundColor.darkGrey,
-                                                borderRadius: BorderRadius.circular(5),
-                                              ),
-                                              child:commonTextView(state.categoryList?[index].productCount.toString() ?? '',fontWeight: FontWeight.w500,color: AppTextColor.blue,fontSize: 16),
-                                            ) : const Offstage()
                                           ],
                                         ),
                                       ),
                                     ),
-                                  ),
-                                );
-                              }),
-                                ],
-                              ),
-                            ),
+                                  );
+                                })
+                                : const Offstage() : ListView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: state.categoryList?.length ?? 0,
+                                itemBuilder: (BuildContext contexts,index){
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 05),
+                                    child: GestureDetector(
+                                      onTap: (){
+                                        if(state.categoryList?[index].productCount != 0){
+                                          Navigator.pushNamed(contexts, categoryProduct, arguments: {"categoryId" : state.categoryList?[index].sId});
+                                        }
+                                      },
+                                      child: Container(
+                                        width: MediaQuery.of(context).size.width,
+                                        decoration: BoxDecoration(
+                                          color: AppBackGroundColor.white,
+                                          borderRadius: BorderRadius.circular(8),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.black.withOpacity(0.1),
+                                              offset: const Offset(0, 1),
+                                              blurRadius: 5,
+                                              spreadRadius: 0,
+                                            )
+                                          ],
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 05),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Container(
+                                                    height: 60,
+                                                    width: 60,
+                                                    decoration: BoxDecoration(
+                                                      color: AppBackGroundColor.blue,
+                                                      borderRadius: BorderRadius.circular(100),
+                                                    ),
+                                                    child: Padding(
+                                                      padding: const EdgeInsets.all(15.0),
+                                                      child: Image.network("${ApiUrls.imageUrl}${state.categoryList?[index].categoryImage}" ?? '',color: AppIconColor.white),
+                                                    ),
+                                                  ),
+                                                  const SizedBox(width: 15),
+                                                  commonTextView(state.categoryList?[index].categoryName ?? '',fontWeight: FontWeight.w500,color: AppTextColor.blue,fontSize: 18,overflow: TextOverflow.ellipsis,maxLines: 1),
+                                                ],
+                                              ),
+                                              state.categoryList?[index].productCount != 0 ?   Container(
+                                                alignment: Alignment.center,
+                                                height: 25,
+                                                width: 25,
+                                                decoration: BoxDecoration(
+                                                  color: AppBackGroundColor.darkGrey,
+                                                  borderRadius: BorderRadius.circular(5),
+                                                ),
+                                                child:commonTextView(state.categoryList?[index].productCount.toString() ?? '',fontWeight: FontWeight.w500,color: AppTextColor.blue,fontSize: 16),
+                                              ) : const Offstage()
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                })
                           ],
                         ) : const Offstage(),
                         state.productsList?.isEmpty ?? false
@@ -345,155 +327,6 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                           ],
                         )
                             : const Offstage(),
-                        // paddingTop(15),
-                        // state.productsList?.isNotEmpty ?? false
-                        //     ? Column(
-                        //         crossAxisAlignment: CrossAxisAlignment.start,
-                        //         children: [
-                        //           commonTextView(HomeString.myProduct, color: AppTextColor.lightBlack, fontSize: 22, fontWeight: FontWeight.w600),
-                        //           ListView.builder(
-                        //               physics: const NeverScrollableScrollPhysics(),
-                        //               shrinkWrap: true,
-                        //               itemCount: state.productsList?.length ?? 0,
-                        //               itemBuilder: (context, index) {
-                        //                 return GestureDetector(
-                        //                   onTap: (){
-                        //                     Navigator.pushNamed(context, addProductScreen, arguments: {"productModel": state.productsList?[index], "isEdit": true,"isView" : false});
-                        //                   },
-                        //                   child: Padding(
-                        //                     padding: const EdgeInsets.symmetric(vertical: 10),
-                        //                     child: Container(
-                        //                       decoration: BoxDecoration(
-                        //                         color: AppBackGroundColor.white,
-                        //                         borderRadius: BorderRadius.circular(15),
-                        //                         boxShadow: [
-                        //                           BoxShadow(
-                        //                             color: Colors.black.withOpacity(0.1),
-                        //                             offset: const Offset(0, 1),
-                        //                             blurRadius: 5,
-                        //                             spreadRadius: 4,
-                        //                           )
-                        //                         ],
-                        //                       ),
-                        //                       child: Column(
-                        //                         children: [
-                        //                           Row(
-                        //                             children: [
-                        //                               Container(
-                        //                                 decoration: BoxDecoration(
-                        //                                   borderRadius: BorderRadius.circular(90),
-                        //                                 ),
-                        //                                 child: ClipRRect(
-                        //                                   borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(10),topLeft:Radius.circular(10)),
-                        //                                   child: CachedNetworkImage(
-                        //                                     imageUrl: "${ApiUrls.imageUrl}${state.productsList?[index].photo}",
-                        //                                     height: 120,
-                        //                                     width: 100,
-                        //                                     fit: BoxFit.cover,
-                        //                                     placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
-                        //                                     errorWidget: (context, url, error) => Image.asset('', height: 100, width: 90, fit: BoxFit.cover),
-                        //                                   ),
-                        //                                 ),
-                        //                               ),
-                        //                               const SizedBox(width: 10),
-                        //                               Expanded(
-                        //                                 child: Column(
-                        //                                   crossAxisAlignment: CrossAxisAlignment.start,
-                        //                                   children: [
-                        //                                     commonRichText(HomeString.productName, state.productsList?[index].productName),
-                        //                                     paddingTop(02),
-                        //                                     commonRichText(
-                        //                                       HomeString.category,
-                        //                                       "${state.productsList?[index].categoryName}(${state.productsList?[index].subCategoryName})",
-                        //                                     ),
-                        //                                     paddingTop(02),
-                        //                                     commonRichText(HomeString.currentDate, outputFormat.format(state.productsList![index].purchaseDate!),maxLine: 2),
-                        //                                     paddingTop(02),
-                        //                                     commonRichText(HomeString.warrantyDate, outputFormat.format(state.productsList![index].warrantyExpiryDate!),maxLine: 2),
-                        //                                     // commonRichText(HomeString.barcodeNumber, state.productsList?[index].barcodeNumber.toString()),
-                        //                                   ],
-                        //                                 ),
-                        //                               ),
-                        //                             ],
-                        //                           ),
-                        //                           // state.productsList?[index].remark != ''
-                        //                           //     ? Column(
-                        //                           //         crossAxisAlignment: CrossAxisAlignment.start,
-                        //                           //         children: [
-                        //                           //           commonTextView(HomeString.remark, color: AppTextColor.lightBlack, fontSize: 14, fontWeight: FontWeight.w500),
-                        //                           //           commonTextView(state.productsList?[index].remark ?? '',
-                        //                           //               color: AppTextColor.lightBlack, fontSize: 12, fontWeight: FontWeight.w400, align: TextAlign.start),
-                        //                           //         ],
-                        //                           //       )
-                        //                           //     : const Offstage(),
-                        //                           // paddingTop(15),
-                        //                           // Row(
-                        //                           //   children: [
-                        //                           //     Expanded(
-                        //                           //         child: commonButton(HomeString.edit, () {
-                        //                           //       Navigator.pushNamed(context, addProductScreen, arguments: {"productModel": state.productsList?[index], "isEdit": true});
-                        //                           //     }, 50)),
-                        //                           //     const SizedBox(
-                        //                           //       width: 10,
-                        //                           //     ),
-                        //                           //     Expanded(
-                        //                           //         child: commonButton(HomeString.delete, () {
-                        //                           //       showAlertDialog(context, "Delete Product", "Are you sure you wan't to delete this product ?", "yes", onTapOk: () {
-                        //                           //         Navigator.pop(context);
-                        //                           //         context.read<HomeBloc>().add(DeleteProductEvent(productModel: state.productsList?[index]));
-                        //                           //       }, isShowCancel: true, cancelButtonText: "No");
-                        //                           //     }, 50, buttonColor: AppButtonColor.lightGrey, textColor: AppTextColor.lightBlack)),
-                        //                           //   ],
-                        //                           // ),
-                        //                           // paddingBottom(05)
-                        //                         ],
-                        //                       ),
-                        //                     ),
-                        //                   ),
-                        //                 );
-                        //               }),
-                        //         ],
-                        //       )
-                        //     : Offstage(),
-                        // state.productsList?.isEmpty ?? false
-                        //     ? Column(
-                        //         children: [
-                        //           paddingTop(100),
-                        //           Container(
-                        //             height: 300,
-                        //             decoration: const BoxDecoration(
-                        //                 color: AppBackGroundColor.lightGrey,
-                        //                 border: DashedBorder.fromBorderSide(dashLength: 5, side: BorderSide(color: AppBorderColor.lightBlue, width: 1)),
-                        //                 borderRadius: BorderRadius.all(Radius.circular(15))),
-                        //             child: Center(
-                        //                 child: Padding(
-                        //               padding: const EdgeInsets.symmetric(horizontal: 10),
-                        //               child: Column(
-                        //                 mainAxisAlignment: MainAxisAlignment.center,
-                        //                 children: [
-                        //                   InkWell(
-                        //                     onTap: () {
-                        //                       Navigator.pushNamed(context, addProductScreen, arguments: {"isEdit": false,"isView" : false});
-                        //                     },
-                        //                     child: Container(
-                        //                       width: 60,
-                        //                       height: 60,
-                        //                       decoration: BoxDecoration(borderRadius: BorderRadius.circular(100), color: AppBackGroundColor.blue),
-                        //                       child: const Icon(Icons.add, color: AppIconColor.white, size: 30),
-                        //                     ),
-                        //                   ),
-                        //                   paddingTop(05),
-                        //                   commonTextView("Add Product Details", fontWeight: FontWeight.w500, color: AppTextColor.offBlue, fontSize: 18),
-                        //                   paddingTop(05),
-                        //                   commonTextView("No any product Details added", fontWeight: FontWeight.w400, color: AppTextColor.lightGrey, fontSize: 12),
-                        //                 ],
-                        //               ),
-                        //             )),
-                        //           ),
-                        //         ],
-                        //       )
-                        //     : Offstage()
-                        paddingBottom(10)
                       ],
                     ),
                   ),
@@ -612,33 +445,16 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       ),
     );
   }
+
   PdfDocument document = PdfDocument();
 
   Future<String> createPDF(Datum productData) async {
-    final page = document.pages.add();
-
-    /// Add header text
-    page.graphics.drawString(
-        'Warranty Bell', PdfStandardFont(PdfFontFamily.helvetica, 12),
-        bounds: const Rect.fromLTWH(0, 0, 200, 20));
-
-    /// Load an icon
-    Uint8List iconData = await readImageData(AppImages.appIcon);
-
-    /// Add icon on the right side
-    page.graphics.drawImage(PdfBitmap(iconData), const Rect.fromLTWH(200, 0, 20, 20));
-
     PdfGrid grid = PdfGrid();
     grid.style = PdfGridStyle(
         font: PdfStandardFont(PdfFontFamily.helvetica, 30),
         cellPadding: PdfPaddings(left: 5, right: 2, top: 2, bottom: 2));
 
     grid.columns.add(count: 2);
-    grid.headers.add(1);
-
-    PdfGridRow header = grid.headers[0];
-   header.cells[0].value = "key";
-   header.cells[1].value = 'Value';
 
     PdfGridRow row = grid.rows.add();
     row.cells[0].value = HomeString.productName;
@@ -666,15 +482,20 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
 
     grid.draw(page: document.pages.add(), bounds: const Rect.fromLTWH(0, 0, 0, 0));
 
-    var path = await ExternalPath.getExternalStoragePublicDirectory(ExternalPath.DIRECTORY_DOWNLOADS);
-    final file = File('$path/${DateTime.now().microsecondsSinceEpoch}.pdf');
-      await file.writeAsBytes(await document.save());
-    return file.path;
-  }
+    var file;
+    final PathProviderPlatform provider = PathProviderPlatform.instance;
 
-  Future<Uint8List> readImageData(String name) async {
-    final data = await rootBundle.load(AppImages.appIcon);
-    return data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+    if(Platform.isAndroid){
+      Directory?  documents = await DownloadsPath.downloadsDirectory(dirType: DownloadDirectoryTypes.downloads);
+      file = File('${documents!.path}/${DateTime.now().microsecondsSinceEpoch}.pdf');
+      await file.writeAsBytes(await document.save());
+    }else if(Platform.isIOS){
+      String? documents = await provider.getDownloadsPath();
+      file = File('$documents/${DateTime.now().microsecondsSinceEpoch}.pdf');
+      file.writeAsBytes(await document.save());
+    }
+
+    return file.path;
   }
 
 }

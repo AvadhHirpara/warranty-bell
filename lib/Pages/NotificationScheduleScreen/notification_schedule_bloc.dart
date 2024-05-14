@@ -6,6 +6,7 @@ import 'package:WarrantyBell/Enums/loading_status.dart';
 import 'package:WarrantyBell/Model/notification_schedule_model.dart';
 import 'package:WarrantyBell/Networking/ApiServicesHelper/api_services.dart';
 import 'package:WarrantyBell/main.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'notification_schedule_event.dart';
 part 'notification_schedule_state.dart';
@@ -43,15 +44,15 @@ class NotificationScheduleBloc extends Bloc<NotificationScheduleEvent, Notificat
       notificationScheduleList.clear();
       var res = await ApiService.request(ApiUrls.notificationSchedule, RequestMethods.GET, showLogs: true,header: tokeWithHeader);
       if(res != null){
-        if(res[UserModelKeys.data] != null && res[UserModelKeys.data] is List) {
-          for (var element in (res[UserModelKeys.data])) {
-            NotificationScheduleModel notificationScheduleModel = NotificationScheduleModel.fromJson(element ?? {});
-            notificationScheduleList.add(notificationScheduleModel);
+          if(res[UserModelKeys.data] != null && res[UserModelKeys.data] is List) {
+            for (var element in (res[UserModelKeys.data])) {
+              NotificationScheduleModel notificationScheduleModel = NotificationScheduleModel.fromJson(element ?? {});
+              notificationScheduleList.add(notificationScheduleModel);
+            }
+            emit(state.copyWith(status:LoadStatus.success,notificationScheduleList: notificationScheduleList));
+          }else{
+            emit(state.copyWith(status:LoadStatus.failure));
           }
-          emit(state.copyWith(status:LoadStatus.success,notificationScheduleList: notificationScheduleList,));
-        }else{
-          emit(state.copyWith(status:LoadStatus.failure));
-        }
       }
     }
     catch(e){

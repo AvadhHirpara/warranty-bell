@@ -1,4 +1,4 @@
-package com.example.expiry
+package com.myapp.warrantybell
 
 import io.flutter.embedding.android.FlutterActivity
 

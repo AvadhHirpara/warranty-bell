@@ -22,6 +22,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
      on<DeleteProductEvent>((event, emit) => deleteProductOnTap(event, emit));
      on<LogoutEvent>((event, emit) => logout(event, emit));
+     on<ChangeTabEvent>((event, emit) => isChangeTab(event, emit));
   }
 
   ///DeleteProductButtonTap
@@ -30,8 +31,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   ///DeleteProductButtonTap
-  FutureOr<void> logout ( event, Emitter<HomeState>emit){
+  FutureOr<void> logout ( LogoutEvent event, Emitter<HomeState>emit){
     logOut();
+  }
+
+  FutureOr<void> isChangeTab (ChangeTabEvent event, Emitter<HomeState>emit){
+    emit(state.copyWith(status: LoadStatus.initial,isSelectProduct: event.isSelectProduct,isSelectCategories: event.isSelectCategories));
   }
 
   ///GetProducts
@@ -46,12 +51,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   try{
     var res = await ApiService.request(ApiUrls.products, RequestMethods.GET, showLogs: true,header: tokeWithHeader);
     if(res != null){
-      if(res[UserModelKeys.data] != null) {
-       List<Datum> productList = (res["data"] as List).map((data) => Datum.fromJson(data)).toList();
-        emit(state.copyWith(status:LoadStatus.success,flag: "product",productsList: productList));
-      }else{
-        emit(state.copyWith(status:LoadStatus.failure));
-      }
+        if(res[UserModelKeys.data] != null) {
+          List<Datum> productList = (res["data"] as List).map((data) => Datum.fromJson(data)).toList();
+          emit(state.copyWith(status:LoadStatus.success,flag: "product",productsList: productList));
+        }else{
+          emit(state.copyWith(status:LoadStatus.failure));
+        }
     }
   }
   catch(e){

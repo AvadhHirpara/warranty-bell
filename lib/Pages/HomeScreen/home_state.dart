@@ -5,7 +5,10 @@ class HomeState {
  List<Datum>? productsList = [];
  String? flag;
  List<CategoryModel>? categoryList = [];
- HomeState({this.status = LoadStatus.initial,this.productsList,this.flag, this.categoryList});
+ bool isSelectCategories;
+ bool isSelectProduct;
+ String? message;
+ HomeState({this.status = LoadStatus.initial,this.productsList,this.flag, this.categoryList,this.isSelectProduct = true,this.isSelectCategories = false,this.message = ''});
 
  HomeState copyWith({
   LoadStatus? status,
@@ -13,13 +16,19 @@ class HomeState {
   List<Datum>? searchProduct,
   String? flag,
   String? searchProductText,
-  List<CategoryModel>? categoryList
+  List<CategoryModel>? categoryList,
+  bool? isSelectCategories,
+  bool? isSelectProduct,
+  String? message
  }) {
   return HomeState(
    status: status ?? this.status,
    productsList: productsList ?? this.productsList,
    flag: flag ?? this.flag,
    categoryList: categoryList ?? this.categoryList,
+   isSelectCategories: isSelectCategories ?? this.isSelectCategories,
+   isSelectProduct: isSelectProduct ?? this.isSelectProduct,
+   message: message ?? this.message,
   );
  }
 
@@ -28,7 +37,10 @@ class HomeState {
   status,
   productsList,
   flag,
-  categoryList
+  categoryList,
+  isSelectProduct,
+  isSelectCategories,
+  message
  ];
 
 }
