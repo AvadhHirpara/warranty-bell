@@ -19,8 +19,10 @@ import 'package:WarrantyBell/main.dart';
 import 'package:WarrantyBell/utils/Mixins/app_exit_dialog.dart';
 import 'package:WarrantyBell/widgets/common_text_view.dart';
 import 'package:WarrantyBell/widgets/custom_app_bar.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lecle_downloads_path_provider/constants/downloads_directory_type.dart';
@@ -196,19 +198,19 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                       commonRichText(HomeString.currentDate, outputFormat.format(state.productsList![index].purchaseDate!),maxLine: 2),
                                                       paddingTop(02),
                                                       commonRichText(HomeString.warrantyDate, outputFormat.format(state.productsList![index].warrantyExpiryDate!),maxLine: 2),
-                                                      GestureDetector(
-                                                          onTap: (){
-                                                            // createPDF(state.productsList![index]).then((value){
-                                                            //   print("download path is $value");
-                                                            // });
-                                                            createPDF(state.productsList![index]);
-                                                          },
-                                                          child: const Align(
-                                                              alignment: Alignment.centerRight,
-                                                              child: Padding(
-                                                                padding: EdgeInsets.symmetric(horizontal: 05),
-                                                                child: Icon(Icons.download_rounded,color: AppIconColor.blue,),
-                                                              )) /*commonRichText("Download pdf", '')*/),
+                                                      // GestureDetector(
+                                                      //     onTap: (){
+                                                      //       // createPDF(state.productsList![index]).then((value){
+                                                      //       //   print("download path is $value");
+                                                      //       // });
+                                                      //       createPDF(state.productsList![index]);
+                                                      //     },
+                                                      //     child: const Align(
+                                                      //         alignment: Alignment.centerRight,
+                                                      //         child: Padding(
+                                                      //           padding: EdgeInsets.symmetric(horizontal: 05),
+                                                      //           child: Icon(Icons.download_rounded,color: AppIconColor.blue,),
+                                                      //         )) /*commonRichText("Download pdf", '')*/),
                                                     ],
                                                   ),
                                                 ),
@@ -263,11 +265,11 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                     ),
                                                     child: Padding(
                                                       padding: const EdgeInsets.all(15.0),
-                                                      child: Image.network("${ApiUrls.imageUrl}${state.categoryList?[index].categoryImage}" ?? '',color: AppIconColor.white),
+                                                      child: Image.network("${ApiUrls.imageUrl}${state.categoryList?[index].categoryImage}" ?? '',),
                                                     ),
                                                   ),
                                                   const SizedBox(width: 15),
-                                                  commonTextView(state.categoryList?[index].categoryName ?? '',fontWeight: FontWeight.w500,color: AppTextColor.blue,fontSize: 18,overflow: TextOverflow.ellipsis,maxLines: 1),
+                                                  commonTextView(state.categoryList?[index].categoryName ?? '',fontWeight: FontWeight.w500,color: AppTextColor.blue,fontSize: 18,overflow: TextOverflow.ellipsis,maxLines: 2),
                                                 ],
                                               ),
                                               state.categoryList?[index].productCount != 0 ?   Container(

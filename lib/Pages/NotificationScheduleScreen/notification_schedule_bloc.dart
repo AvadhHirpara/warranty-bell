@@ -26,7 +26,7 @@ class NotificationScheduleBloc extends Bloc<NotificationScheduleEvent, Notificat
     emit(state.copyWith(status : LoadStatus.initial,isStatus: event.notificationScheduleModel?.status));
     Map<String, dynamic> body = {
       "id" : event.notificationScheduleModel?.sId,
-      "status" : event.isStatus
+      "status" : true
     };
     updateNotificationSchedule(body,event);
   }

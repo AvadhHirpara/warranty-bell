@@ -63,8 +63,8 @@ class NotificationService {
         initializationSettings,
         onDidReceiveNotificationResponse: (payload) async {
           print("object======= onDidReceiveNotificationResponse");
-          print("😍 ==> goto next s ${jsonDecode(payload.payload.toString())}");
-          handleNotification(jsonDecode(payload.payload.toString()), AppState.background);
+          // print("😍 ==> goto next s ${jsonDecode(payload.payload.toString())}");
+          handleNotification(jsonDecode(payload.payload!), AppState.background);
         },
         onDidReceiveBackgroundNotificationResponse: (payload) async {
           print("object======= onDidReceiveBackgroundNotificationResponse");
@@ -151,6 +151,7 @@ Future<void> showNotification(RemoteMessage message) async {
     playSound: true,
     enableLights: true,
     enableVibration: true,
+    ongoing: true,
     largeIcon: const DrawableResourceAndroidBitmap('@mipmap/ic_launcher'),
   );
 
@@ -162,11 +163,7 @@ Future<void> showNotification(RemoteMessage message) async {
     iOS: darwinNotificationDetails,
   );
 
-  if (Platform.isAndroid) {
     FlutterLocalNotificationsPlugin().show(0, notification?.title ?? "", notification?.body ?? "", notificationDetails);
-  }else if(Platform.isIOS){
-    FlutterLocalNotificationsPlugin().show(0, notification?.title ?? "", notification?.body ?? "", notificationDetails);
-  }
   handleNotification(message.data, AppState.foreground);
 }
 

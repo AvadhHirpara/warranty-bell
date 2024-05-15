@@ -13,6 +13,7 @@ class AppImages{
   static const lock = "$pathPng/lock.png";
   static const facebook = "$pathSvg/facebook.svg";
   static const google = "$pathSvg/google.svg";
+  static const apple = "$pathSvg/apple.svg";
   static const camera = "$pathSvg/camera.svg";
   static const forgotSelected = "$pathSvg/forgot_selected.svg";
   static const otpSelected = "$pathSvg/otp_selected.svg";

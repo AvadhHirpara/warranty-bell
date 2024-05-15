@@ -18,7 +18,7 @@ class UserDefault {
 class LoginTypeDefault{
   static const defaultLogin = "app"; ///For email type
   static const google = "gmail"; ///For google type
-  static const facebook = "facebook"; ///For facebook type
+  static const apple = "apple"; ///For facebook type
 }
 
 ///CommonString
@@ -57,6 +57,7 @@ class LoginString{
   static const or = " Or ";
   static const facebook = "Facebook";
   static const google = "Google";
+  static const apple = "Apple";
   static const dontHaveAccount = "Don’t have account?";
   static const signUp = " Sign Up";
   static const rememberMe = "Remember me";

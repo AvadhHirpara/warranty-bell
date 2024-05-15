@@ -14,11 +14,13 @@ import 'package:WarrantyBell/utils/routes.dart';
 import 'package:WarrantyBell/utils/validation.dart';
 import 'package:WarrantyBell/widgets/common_button.dart';
 import 'package:WarrantyBell/widgets/common_text_view.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'dart:io';
+
 import 'package:flutter_svg/flutter_svg.dart';
+
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -227,6 +229,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         //     ),
                         //   ],
                         // ),
+
+                        Platform.isAndroid ?
                         GestureDetector(
                           onTap: (){
                             context.read<LoginBloc>().add(GoogleLoginEvent());
@@ -250,7 +254,29 @@ class _LoginScreenState extends State<LoginScreen> {
                               ],
                             ),
                           ),
-                        ),
+                        ) : GestureDetector(
+                          onTap: (){
+                            context.read<LoginBloc>().add(GoogleLoginEvent());
+                          },
+                          child: Container(
+                            height: 50,
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              color: AppBackGroundColor.lightGrey,
+                              borderRadius: BorderRadius.circular(14),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SvgPicture.asset(AppImages.apple),
+                                Text(
+                                    LoginString.apple,
+                                    style: TextStyleTheme.customTextStyle(AppTextColor.darkGrey, 16, FontWeight.w500)
+                                ),
+                              ],
+                            ),
+                          ),
+                        )  ,
                         paddingTop(35),
                         commonButton(LoginString.login, () {
                           if(formKey.currentState!.validate()){

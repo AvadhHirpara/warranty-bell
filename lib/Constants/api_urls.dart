@@ -8,6 +8,7 @@ class ApiUrls {
 
   ///AuthUrls
   static const login = '$baseUrl/login';
+  static const socialLogin = "$baseUrl/social_login";
   static const register = '$baseUrl/sign_up';
   static const forgotPassword = '$baseUrl/send_otp';
   static const resetPassword = '$baseUrl/change_password';
