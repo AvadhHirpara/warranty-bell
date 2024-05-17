@@ -74,7 +74,7 @@ class _SettingScreenState extends State<SettingScreen> {
                   commonSettingItemView(SettingString.privacyPolicy,child: const Icon(Icons.arrow_forward_ios_outlined),onTap: (){Navigator.pushNamed(context,privacyScreen);}),
                   commonSettingItemView(SettingString.terms,child: const Icon(Icons.arrow_forward_ios_outlined),onTap: (){Navigator.pushNamed(context,termsScreen);}),
                   // commonSettingItemView(SettingString.support,child: const Icon(Icons.arrow_forward_ios_outlined)),
-                  commonSettingItemView(SettingString.changePassword,child: const Icon(Icons.arrow_forward_ios_outlined),onTap: (){Navigator.pushNamed(context,changePassword);}),
+                  (userData.loginType == LoginTypeDefault.defaultLogin) ?  commonSettingItemView(SettingString.changePassword,child: const Icon(Icons.arrow_forward_ios_outlined),onTap: (){Navigator.pushNamed(context,changePassword);}) : const Offstage(),
                   commonSettingItemView(SettingString.deleteAccount, onTap: (){ showAlertDialog(context, SettingString.deleteAccount, SettingString.areYouSureDelete, CommonString.yes,onTapOk: (){ Navigator.pop(context); context.read<SettingBloc>().add(DeleteAccountEvent());},isShowCancel: true,cancelButtonText: CommonString.no);}),
                 ],
               ),

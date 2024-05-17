@@ -178,7 +178,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             lName,
                                 (value) => validateLastName(value),
                             focusNode[1],
-                                (value) => userData.lastName = value,
+                                (value) => userData.lastName = value.toString(),
                                 (value) {
                               FocusScope.of(context).requestFocus();
                             },
@@ -200,7 +200,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             "Mobile Number",
                             TextAlign.left,
                             mobileNumber, (value) => validateMobileNumber(value),
-                            focusNode[2], (value) => value,
+                            focusNode[2], (value) => userData.mobile = int.parse(value),
                                 (value) {
                               FocusScope.of(context).requestFocus();
                             },

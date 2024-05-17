@@ -34,12 +34,14 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
       body = {
         "first_name" : fName.text,
         "last_name" : lName .text,
+        "mobile" : mobileNumber.text,
         "photo" : ""
       };
     }else{
       body = {
         "first_name" : fName.text,
         "last_name" : lName .text,
+        "mobile" : mobileNumber.text
       };
     }
 

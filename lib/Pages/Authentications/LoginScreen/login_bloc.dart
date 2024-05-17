@@ -11,7 +11,7 @@ import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+  import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 
 part 'login_event.dart';
@@ -45,17 +45,22 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     try {
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
       if (googleUser != null) {
-        final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+          final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
         final AuthCredential credential = GoogleAuthProvider.credential(
           accessToken: googleAuth.accessToken,
           idToken: googleAuth.idToken,
         );
+
+        userData.firstName = googleUser.displayName!.split(" ")[0];
+        userData.lastName = googleUser.displayName!.split(" ")[1];
         if(credential.accessToken != null){
           Map<String, dynamic> body = {
             "token" : credential.accessToken,
             "login_type" : LoginTypeDefault.google,
             "device_type" : Platform.operatingSystem,
-            "device_token" :  userData.deviceToken
+            "device_token" :  userData.deviceToken,
+            "first_name" : userData.firstName,
+            "last_name" : userData.lastName
           };
 
           signInWithSocialLogin(body);
@@ -75,7 +80,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       "password" : loginPassword.text,
       "login_type" :LoginTypeDefault.defaultLogin,
       "device_type" : Platform.operatingSystem,
-      "device_token" :  userData.deviceToken
+      "device_token" : userData.deviceToken
     };
 
     signInWithEmailPassword(body);
@@ -96,6 +101,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           userData.displayName ="${userData.firstName ?? ''} ${userData.lastName ?? ''}";
           userData.mobile = userRes.mobile;
           userData.profile = userRes.profile;
+          userData.loginType = userRes.loginType;
           userData.notificationStatus = userRes.notificationStatus;
           updateUserDataSharedPrefs(userData);
           emit(state.copyWith(status:LoadStatus.success,message: res['message']));
@@ -120,11 +126,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           sharedPref.save("token", userRes.authToken);
           userData.authToken = userRes.authToken;
           userData.userId = userRes.userId;
-          userData.firstName = userRes.firstName;
-          userData.lastName = userRes.lastName;
-          userData.displayName ="${userData.firstName ?? ''} ${userData.lastName ?? ''}";
-          userData.mobile = userRes.mobile;
-          userData.profile = userRes.profile;
+          userData.loginType = userRes.loginType;
+          userData.email = userRes.email;
+          userData.lastName = userRes.lastName ?? '';
+          userData.firstName = userRes.firstName ?? '';
+          userData.profile = userRes.profile ?? '';
           userData.notificationStatus = userRes.notificationStatus;
           updateUserDataSharedPrefs(userData);
           emit(state.copyWith(status:LoadStatus.success,message: res['message']));
@@ -158,7 +164,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
               "email" : jwt.payload['email'],
               "login_type" : LoginTypeDefault.apple,
               "device_type" : Platform.operatingSystem,
-              "device_token" :  userData.deviceToken
+              "device_token" :  userData.deviceToken,
+              "first_name" : appleResult.givenName,
+              "last_name" : appleResult.familyName
             };
 
             signInWithSocialLogin(body);
