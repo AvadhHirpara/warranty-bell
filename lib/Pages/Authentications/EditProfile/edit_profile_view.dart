@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:WarrantyBell/Pages/AddProductScreen/add_product_view.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:WarrantyBell/Constants/api_urls.dart';
 import 'package:WarrantyBell/Constants/color_constants.dart';
@@ -239,6 +240,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         ),
                         paddingTop(30),
                         commonButton("Submit", () {
+                          isImageCapture = false;
                           if (formKey.currentState!.validate()) {
                             formKey.currentState?.save();
                             context.read<EditProfileBloc>().add(SubmitButtonEvent());
@@ -293,6 +295,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         children: [
                           GestureDetector(
                             onTap: () async {
+                              isImageCapture = true;
                               Navigator.pop(context);
                               permissionCheck().then((value) async {
                                 if (value) {
@@ -322,6 +325,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         children: [
                           GestureDetector(
                             onTap: () async {
+                              isImageCapture = true;
                               Navigator.pop(context);
                               permissionCheck().then((value) async {
                                 if (value) {

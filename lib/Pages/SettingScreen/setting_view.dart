@@ -10,6 +10,7 @@ import 'package:WarrantyBell/Utils/Mixins/alert_dialog.dart';
 import 'package:WarrantyBell/Utils/routes.dart';
 import 'package:WarrantyBell/main.dart';
 import 'package:WarrantyBell/widgets/common_text_view.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -51,16 +52,17 @@ class _SettingScreenState extends State<SettingScreen> {
                   ),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 15),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.start,
+                    child: Stack(
                       children: [
+                        Positioned(
+                            left: 0,
+                            right: 0,
+                            child: commonTextView(SettingString.setting, fontWeight: FontWeight.w500, color: AppTextColor.white, fontSize: 18)),
                         InkWell(
                             onTap: (){
                               Navigator.pop(context);
                             },
                             child: const Icon(Icons.arrow_back,color: AppIconColor.white)),
-                        Expanded(child: commonTextView(SettingString.setting, fontWeight: FontWeight.w500, color: AppTextColor.white, fontSize: 18)),
                       ],
                     ),
                   ),

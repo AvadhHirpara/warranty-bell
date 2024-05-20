@@ -69,6 +69,7 @@ dependencies:
   path_provider_foundation: ^2.4.0
   sign_in_with_apple: ^6.1.0
   dart_jsonwebtoken: ^2.14.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

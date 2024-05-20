@@ -7,6 +7,7 @@ import 'package:WarrantyBell/Pages/AddProductScreen/Module/category_view.dart';
 import 'package:WarrantyBell/Pages/AllCategoryScreen/all_category_bloc.dart';
 import 'package:WarrantyBell/utils/Mixins/app_exit_dialog.dart';
 import 'package:WarrantyBell/widgets/common_text_view.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -58,19 +59,17 @@ class _AllCategoryScreenState extends State<AllCategoryScreen> {
                           )),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.start,
+                        child: Stack(
                           children: [
+                            Positioned(
+                                left: 0,
+                                right: 0,
+                                child: commonTextView(CategoryString.category, fontWeight: FontWeight.w500, color: AppTextColor.white, fontSize: 18)),
                             InkWell(
                                 onTap: () {
                                   Navigator.pop(context);
                                 },
-                                child: const Padding(
-                                  padding: EdgeInsets.all(10.0),
-                                  child: Icon(Icons.arrow_back, color: AppIconColor.white),
-                                )),
-                            Expanded(child: commonTextView(CategoryString.category, fontWeight: FontWeight.w500, color: AppTextColor.white, fontSize: 18)),
+                                child: const Icon(Icons.arrow_back, color: AppIconColor.white)),
                           ],
                         ),
                       ),

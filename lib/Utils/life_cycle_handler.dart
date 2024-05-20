@@ -1,3 +1,6 @@
+import 'package:WarrantyBell/Pages/AddProductScreen/add_product_view.dart';
+import 'package:WarrantyBell/Utils/routes.dart';
+import 'package:WarrantyBell/main.dart';
 import 'package:flutter/material.dart';
 
 
@@ -7,10 +10,9 @@ class LifecycleEventHandler extends WidgetsBindingObserver {
     switch (state) {
       case AppLifecycleState.resumed:
         print('Back to app');
-        // if (remoteData.isNotEmpty) {
-        //   remoteData = {};
-        //   forceLogoutDialog();
-        // }
+        if(userData.userId != '' && isImageCapture == false){
+          Navigator.pushNamed(navState.currentContext!, homeScreen);
+        }
         break;
       case AppLifecycleState.paused:
         print('App minimised or Screen locked');

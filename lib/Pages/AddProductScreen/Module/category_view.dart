@@ -25,20 +25,20 @@ Widget commonCategoryCardView(String? title,String? icon){
           ],
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 05),
+          padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                height: 50,
                 width: 50,
+                height: 50,
                 decoration: BoxDecoration(
                   color: AppBackGroundColor.blue,
                   borderRadius: BorderRadius.circular(100),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Image.network("${ApiUrls.imageUrl}$icon" ?? '',color: AppIconColor.white),
+                  padding: const EdgeInsets.all(12.0),
+                  child: Image.network("${ApiUrls.imageUrl}$icon" ?? ''),
                 ),
               ),
               paddingTop(10),

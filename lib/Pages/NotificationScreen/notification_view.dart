@@ -53,7 +53,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
               appBar: PreferredSize(
                   preferredSize: const Size(100, 150),
                   child: Container(
-                    padding: const EdgeInsets.only(top: 75),
+                    padding: const EdgeInsets.only(top: 65),
                     decoration: const BoxDecoration(
                         gradient: LinearGradient(
                             end: Alignment.centerRight,
@@ -61,20 +61,18 @@ class _NotificationScreenState extends State<NotificationScreen> {
                         borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10),bottomRight : Radius.circular(10),)
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 15),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.start,
+                      padding: const EdgeInsets.only(left: 20,right: 20,top: 15,bottom: 15),
+                      child: Stack(
                         children: [
+                          Positioned(
+                              left: 0,
+                              right: 0,
+                              child: commonTextView(NotificationString.notification, fontWeight: FontWeight.w500, color: AppTextColor.white, fontSize: 18)),
                           InkWell(
                               onTap: (){
                                 Navigator.pop(context);
                               },
-                              child: const Padding(
-                                padding: EdgeInsets.all(10.0),
-                                child: Icon(Icons.arrow_back,color: AppIconColor.white),
-                              )),
-                          Expanded(child: commonTextView(NotificationString.notification, fontWeight: FontWeight.w500, color: AppTextColor.white, fontSize: 18)),
+                              child: const Icon(Icons.arrow_back,color: AppIconColor.white)),
                         ],
                       ),
                     ),

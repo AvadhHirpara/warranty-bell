@@ -31,6 +31,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:mobkit_dashed_border/mobkit_dashed_border.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+bool isImageCapture = false;
+
 class AddProductScreen extends StatefulWidget {
   const AddProductScreen({super.key});
 
@@ -81,7 +83,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
             appBar: PreferredSize(
                 preferredSize: const Size(100, 150),
                 child: Container(
-                  padding: const EdgeInsets.only(top: 75),
+                  padding: const EdgeInsets.only(top: 65),
                   decoration: const BoxDecoration(
                       gradient: LinearGradient(end: Alignment.centerRight, colors: <Color>[AppBarColor.lightBlue, AppBarColor.blue]),
                       borderRadius: BorderRadius.only(
@@ -90,46 +92,88 @@ class _AddProductScreenState extends State<AddProductScreen> {
                       )),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    // child: Row(
+                    //   crossAxisAlignment: CrossAxisAlignment.center,
+                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //   children: [
+                    //     InkWell(
+                    //         onTap: () {
+                    //           Navigator.pop(context);
+                    //         },
+                    //         child: const Icon(Icons.arrow_back, color: AppIconColor.white)),
+                    //     state.isEdit == true ? commonTextView(AddProductString.productDetails, fontWeight: FontWeight.w500, color: AppTextColor.white, fontSize: 18) :
+                    //     commonTextView("Add Product", fontWeight: FontWeight.w500, color: AppTextColor.white, fontSize: 18),
+                    //     state.isEdit == true
+                    //         ? Row(
+                    //             children: [
+                    //              state.isView == true ? const Offstage() : InkWell(
+                    //                 onTap: () {
+                    //                   context.read<AddProductBloc>().add(EditableProduct(isView: true));
+                    //                 },
+                    //                 child: Padding(
+                    //                   padding: const EdgeInsets.all(8.0),
+                    //                   child: SvgPicture.asset(AppImages.editView, height: 20),
+                    //                 ),
+                    //               ),
+                    //               InkWell(
+                    //                 onTap: () {
+                    //                   showAlertDialog(context,AddProductString.deleteProduct, AddProductString.areYouSure, CommonString.yes, onTapOk: () {
+                    //                     Navigator.pop(context);
+                    //                     context.read<AddProductBloc>().add(DeleteProductEvent(productModel: state.productModel));
+                    //                   }, isShowCancel: true, cancelButtonText: CommonString.no);
+                    //                 },
+                    //                 child: Padding(
+                    //                   padding: const EdgeInsets.all(8.0),
+                    //                   child: SvgPicture.asset(AppImages.delete, height: 20),
+                    //                 ),
+                    //               ),
+                    //             ],
+                    //           )
+                    //         : const Offstage()
+                    //   ],
+                    // ),
+                    child: Stack(
                       children: [
-                        InkWell(
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
-                            child: const Padding(
-                              padding: EdgeInsets.all(08),
-                              child: Icon(Icons.arrow_back, color: AppIconColor.white),
-                            )),
-                        commonTextView(AddProductString.productDetails, fontWeight: FontWeight.w500, color: AppTextColor.white, fontSize: 18),
-                        state.isEdit == true
-                            ? Row(
-                                children: [
-                                 state.isView == true ? const Offstage() : InkWell(
-                                    onTap: () {
-                                      context.read<AddProductBloc>().add(EditableProduct(isView: true));
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: SvgPicture.asset(AppImages.editView, height: 20),
-                                    ),
-                                  ),
-                                  InkWell(
-                                    onTap: () {
-                                      showAlertDialog(context,AddProductString.deleteProduct, AddProductString.areYouSure, CommonString.yes, onTapOk: () {
-                                        Navigator.pop(context);
-                                        context.read<AddProductBloc>().add(DeleteProductEvent(productModel: state.productModel));
-                                      }, isShowCancel: true, cancelButtonText: CommonString.no);
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: SvgPicture.asset(AppImages.delete, height: 20),
-                                    ),
-                                  ),
-                                ],
-                              )
-                            : const Offstage()
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            InkWell(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Icon(Icons.arrow_back, color: AppIconColor.white)),
+                            state.isEdit == true ? commonTextView(AddProductString.productDetails, fontWeight: FontWeight.w500, color: AppTextColor.white, fontSize: 18) :
+                            commonTextView("Add Product", fontWeight: FontWeight.w500, color: AppTextColor.white, fontSize: 18),
+                            state.isEdit == true
+                                ? Row(
+                                    children: [
+                                     state.isView == true ? const Offstage() : InkWell(
+                                        onTap: () {
+                                          context.read<AddProductBloc>().add(EditableProduct(isView: true));
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(left: 08,right: 08),
+                                          child: SvgPicture.asset(AppImages.editView, height: 20),
+                                        ),
+                                      ),
+                                      InkWell(
+                                        onTap: () {
+                                          showAlertDialog(context,AddProductString.deleteProduct, AddProductString.areYouSure, CommonString.yes, onTapOk: () {
+                                            Navigator.pop(context);
+                                            context.read<AddProductBloc>().add(DeleteProductEvent(productModel: state.productModel));
+                                          }, isShowCancel: true, cancelButtonText: CommonString.no);
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(left: 08,right: 08),
+                                          child: SvgPicture.asset(AppImages.delete, height: 20),
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                : const Offstage()
+                          ],
+                        ),
                       ],
                     ),
                   ),
@@ -205,7 +249,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                       state.subCategoryModel == null
                           ? SizedBox(
                               width: setWidth(500),
-                              height: 140,
+                              height: setHeight(110),
                               child: ListView.builder(
                                   scrollDirection: Axis.horizontal,
                                   shrinkWrap: true,
@@ -247,7 +291,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                         ),
                                         child: Padding(
                                           padding: const EdgeInsets.all(15.0),
-                                          child: Image.network("${ApiUrls.imageUrl}${state.subCategoryModel?.categoryImage}",color: AppIconColor.white),
+                                          child: Image.network("${ApiUrls.imageUrl}${state.subCategoryModel?.categoryImage}"),
                                         ),
                                       ),
                                       const SizedBox(width: 10),
@@ -519,7 +563,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
                               children: [
                                 Expanded(
                                     child: commonButton(AddProductString.save, () {
-                                  if (formKey.currentState!.validate()) {
+                                      isImageCapture = false;
+                                      if (formKey.currentState!.validate()) {
                                     if (productPurchaseDate.text.isEmpty) {
                                       awesomeTopSnackbar(context, AddProductString.pleaseSelectPurchaseDate);
                                     } else if (productExpiryDate.text.isEmpty) {
@@ -549,7 +594,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                   children: [
                                     Expanded(
                                         child: commonButton(AddProductString.save, () {
-                                      if (formKey.currentState!.validate()) {
+                                          isImageCapture = false;
+                                          if (formKey.currentState!.validate()) {
                                         if (productPurchaseDate.text.isEmpty) {
                                           awesomeTopSnackbar(context, AddProductString.pleaseSelectPurchaseDate);
                                         } else if (productExpiryDate.text.isEmpty) {
@@ -575,7 +621,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                   ],
                                 )
                               : const Offstage(),
-                      paddingBottom(10)
+                      paddingBottom(30)
                     ],
                   ),
                 ),
@@ -621,12 +667,12 @@ class _AddProductScreenState extends State<AddProductScreen> {
                         children: [
                           GestureDetector(
                             onTap: () async {
+                              isImageCapture = true;
                               Navigator.pop(context);
                               permissionCheck().then((value) async {
                                 if (value) {
                                   final ImagePicker picker = ImagePicker();
                                   picker.pickImage(source: ImageSource.camera).then((value) async{
-
                                     CroppedFile? croppedFile = await ImageCropper().cropImage(
                                       sourcePath: value!.path,
                                       uiSettings: [
@@ -664,6 +710,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                         children: [
                           GestureDetector(
                             onTap: () async {
+                              isImageCapture = true;
                               Navigator.pop(context);
                               permissionCheck().then((value) async {
                                 if (value) {

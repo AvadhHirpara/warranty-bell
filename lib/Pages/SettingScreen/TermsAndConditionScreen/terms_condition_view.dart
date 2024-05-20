@@ -53,39 +53,34 @@ class _TermsAndConditionScreenState extends State<TermsAndConditionScreen> {
                     ),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 15),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.start,
+                      child: Stack(
                         children: [
+                          Positioned(
+                              left: 0,
+                              right: 0,
+                              child: commonTextView(SettingString.terms, fontWeight: FontWeight.w500, color: AppTextColor.white, fontSize: 18)),
                           InkWell(
                               onTap: (){
                                 Navigator.pop(context);
                               },
-                              child: const Padding(
-                                padding: EdgeInsets.all(10.0),
-                                child: Icon(Icons.arrow_back,color: AppIconColor.white),
-                              )),
-                          Expanded(child: commonTextView(SettingString.privacyPolicy, fontWeight: FontWeight.w500, color: AppTextColor.white, fontSize: 18)),
+                              child: const Icon(Icons.arrow_back,color: AppIconColor.white)),
                         ],
                       ),
                     ),
                   )),
-              body: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: SingleChildScrollView(
-                    child:Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
-                      child: Html(
-                          data: state.termsData,
-                        style: {
-                          "h1": Style(color: AppTextColor.black,fontSize:  FontSize(20)),
-                          "h3": Style(color: AppTextColor.black,fontSize:  FontSize(16)),
-                          "p": Style(color: AppTextColor.black,fontSize:  FontSize(14)),
-                          "body": Style(color: AppTextColor.black,fontSize:  FontSize(15))
-                        },
-                      ),
-                    )
-                ),
+              body: SingleChildScrollView(
+                  child:Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+                    child: Html(
+                        data: state.termsData,
+                      style: {
+                        "h1": Style(color: AppTextColor.black,fontSize:  FontSize(20)),
+                        "h3": Style(color: AppTextColor.black,fontSize:  FontSize(16)),
+                        "p": Style(color: AppTextColor.black,fontSize:  FontSize(16)),
+                        "body": Style(color: AppTextColor.black,fontSize:  FontSize(18))
+                      },
+                    ),
+                  )
               ),
             ),
           );

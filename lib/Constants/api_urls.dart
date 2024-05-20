@@ -3,8 +3,8 @@ class ApiUrls {
   ///-----------START-ApiUrls-----------
 
   ///BaseUrl
-  static const baseUrl = "http://67.205.148.222:3010";
-  static const imageUrl = "http://67.205.148.222:3010/Public/";
+  static const baseUrl = "http://148.72.246.221:3010";
+  static const imageUrl = "http://148.72.246.221:3010/Public/";
 
   ///AuthUrls
   static const login = '$baseUrl/login';

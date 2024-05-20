@@ -58,7 +58,7 @@ class _ProductHistoryScreenState extends State<ProductHistoryScreen>{
                   appBar: PreferredSize(
                       preferredSize: const Size(100, 150),
                       child: Container(
-                        padding: const EdgeInsets.only(top: 75),
+                        padding: const EdgeInsets.only(top: 65),
                         decoration: const BoxDecoration(
                             gradient: LinearGradient(
                                 end: Alignment.centerRight,
@@ -67,19 +67,16 @@ class _ProductHistoryScreenState extends State<ProductHistoryScreen>{
                         ),
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 15),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.start,
+                          child: Stack(
                             children: [
+                              Positioned(
+                                  left: 0,right: 0,
+                                  child: commonTextView(ProductHistoryString.productHistory, fontWeight: FontWeight.w500, color: AppTextColor.white, fontSize: 18)),
                               InkWell(
                                   onTap: (){
                                     Navigator.pop(context);
                                   },
-                                  child: const Padding(
-                                    padding: EdgeInsets.only(left: 10),
-                                    child: Icon(Icons.arrow_back,color: AppIconColor.white),
-                                  )),
-                              Expanded(child: commonTextView(ProductHistoryString.productHistory, fontWeight: FontWeight.w500, color: AppTextColor.white, fontSize: 18)),
+                                  child: const Icon(Icons.arrow_back,color: AppIconColor.white)),
                             ],
                           ),
                         ),

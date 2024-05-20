@@ -19,17 +19,13 @@ import 'package:WarrantyBell/main.dart';
 import 'package:WarrantyBell/utils/Mixins/app_exit_dialog.dart';
 import 'package:WarrantyBell/widgets/common_text_view.dart';
 import 'package:WarrantyBell/widgets/custom_app_bar.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lecle_downloads_path_provider/constants/downloads_directory_type.dart';
 import 'package:lecle_downloads_path_provider/lecle_downloads_path_provider.dart';
 import 'package:mobkit_dashed_border/mobkit_dashed_border.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart';
-import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -38,7 +34,7 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin{
+class _HomeScreenState extends State<HomeScreen>{
 
   @override
   void initState() {
@@ -485,15 +481,14 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     grid.draw(page: document.pages.add(), bounds: const Rect.fromLTWH(0, 0, 0, 0));
 
     var file;
-    final PathProviderPlatform provider = PathProviderPlatform.instance;
 
     if(Platform.isAndroid){
       Directory?  documents = await DownloadsPath.downloadsDirectory(dirType: DownloadDirectoryTypes.downloads);
       file = File('${documents!.path}/${DateTime.now().microsecondsSinceEpoch}.pdf');
       await file.writeAsBytes(await document.save());
     }else if(Platform.isIOS){
-      String? documents = await provider.getDownloadsPath();
-      file = File('$documents/${DateTime.now().microsecondsSinceEpoch}.pdf');
+      Directory?  documents = await DownloadsPath.downloadsDirectory(dirType: DownloadDirectoryTypes.downloads);
+      file = File('${documents!.path}/${DateTime.now().microsecondsSinceEpoch}.pdf');
       file.writeAsBytes(await document.save());
     }
 
